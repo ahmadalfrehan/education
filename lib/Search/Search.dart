@@ -1,3 +1,4 @@
+import 'package:education_evaluation/DetailsScreens/TeacherDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../Cubit/cubit.dart';
@@ -44,8 +45,9 @@ class SearcH extends StatelessWidget {
                             labelText: " بحث "),
                         onChanged: (String text) {
                           text.length == 0 ? c.ty = true : c.ty = false;
-                          c.Search.clear();
-                          c.SearchInDelete(text);
+                          c.search.clear();
+                          c.searchInTableSchool(text);
+                          c.searchInTableTeacher(text);
                         },
                       ),
                     ),
@@ -53,136 +55,161 @@ class SearcH extends StatelessWidget {
                       child: Container(
                         margin: const EdgeInsets.symmetric(vertical: 15),
                         height: 1555,
-                        child: (c.Search.isEmpty || c.ty == true)
+                        child: (c.search.isEmpty || c.ty == true)
                             ? const Center(
                                 child: Text('No element Found !'),
                               )
                             : ListView.separated(
-                          separatorBuilder: (context,index)=>const SizedBox(height: 15),
-                                itemCount: c.Search.length,
-                                itemBuilder: (context, index) =>
-                                    GestureDetector(
-                                  onTap: () {
-                                    /*Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            Details(c.Search, index),
-                                      ),
-                                    );*/
-                                  },
-                                  child: Container(
-                                    decoration: const BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.grey,
-                                          offset: Offset(4, 7),
-                                          blurRadius: 10,
-                                        ),
-                                      ],
-                                      color: Color(0xFFf7ede2),
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(30),
-                                      ),
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        Row(
-                                          children: [
-                                            const SizedBox(
-                                              width: 10,
-                                            ),
-                                            CircleAvatar(
-                                              backgroundColor:
-                                                  const Color(0xFF84a59d),
-                                              child: Text(
-                                                c.Search[index]['idSchool']
-                                                    .toString(),
-                                                style: const TextStyle(
-                                                    fontSize: 22,
-                                                    color: Color(0xFFf7ede2)),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              c.Search[index]['name'],
-                                              style:
-                                                  const TextStyle(fontSize: 22),
-                                            ),
-                                          ],
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text(
-                                          c.Search[index]['address'],
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        Text(
-                                          c.Search[index]['phone'],
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        const Divider(),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Expanded(
-                                              child: MaterialButton(
-                                                onPressed: () {
-                                                  /*Navigator.push(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          Edit(index, c.Search),
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(height: 15),
+                                itemCount: c.search.length,
+                                itemBuilder: (context, index) => Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              c.search[index]['item'] == null
+                                                  ? Details(
+                                                      c.search,
+                                                      index,
+                                                      c.search[index]
+                                                          ['idSchool'],
+                                                    )
+                                                  : TeacherDetails(
+                                                      list: c.search,
+                                                      index: index,
                                                     ),
-                                                  );*/
-                                                },
-                                                child: const Icon(Icons.edit),
-                                              ),
+                                        ),
+                                      );
+                                    },
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                c.search[index]['item'] == null
+                                                    ? Details(
+                                                        c.search,
+                                                        index,
+                                                        c.search[index]
+                                                            ['idSchool'],
+                                                      )
+                                                    : TeacherDetails(
+                                                        list: c.search,
+                                                        index: index,
+                                                      ),
+                                          ),
+                                        );
+                                      },
+                                      child: Container(
+                                        decoration: const BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(10)),
+                                          color: Color(0xFFECF0F3),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.grey,
+                                              offset: Offset(0, 5),
+                                              blurRadius: 5,
                                             ),
-                                            Expanded(
-                                              child: MaterialButton(
-                                                onPressed: () {
-                                                  c.UpdateStatus(
-                                                      status: 'old',
-                                                      id: c.Search[index]
-                                                          ['id']);
-                                                },
-                                                child:
-                                                    const Icon(Icons.archive),
-                                              ),
+                                            BoxShadow(
+                                              color: Colors.grey,
+                                              offset: Offset(0, -5),
+                                              blurRadius: 5,
                                             ),
-                                            Expanded(
-                                              child: MaterialButton(
-                                                onPressed: () {
-                                                  c.deleteFromDataBase(
-                                                      id: c.Search[index]
-                                                          ['idSchool']);
-                                                },
-                                                child: const Icon(Icons.delete),
+                                            BoxShadow(
+                                              color: Colors.grey,
+                                              offset: Offset(-5, -5),
+                                              blurRadius: 5,
+                                            ),
+                                            BoxShadow(
+                                              color: Colors.grey,
+                                              offset: Offset(5, -5),
+                                              blurRadius: 10,
+                                            ),
+                                          ],
+                                        ),
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(12.0),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        CircleAvatar(
+                                                          backgroundColor:
+                                                              const Color(
+                                                                  0xFF0b4972),
+                                                          child: Icon(
+                                                            c.search[index][
+                                                                        'item'] ==
+                                                                    null
+                                                                ? Icons.school
+                                                                : Icons.person,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Expanded(
+                                                          child: Column(
+                                                            children: [
+                                                              Text(
+                                                                c.search[index]
+                                                                    ['name'],
+                                                                style:
+                                                                    const TextStyle(
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize: 20,
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                  height: 10),
+                                                              Text(
+                                                                c.search[index][
+                                                                            'address'] ==
+                                                                        null
+                                                                    ? c.search[
+                                                                            index]
+                                                                            [
+                                                                            'item']
+                                                                        .toString()
+                                                                    : c.search[
+                                                                            index]
+                                                                            [
+                                                                            'address']
+                                                                        .toString(),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                           ],
                                         ),
-                                      ],
+                                      ),
                                     ),
                                   ),
                                 ),

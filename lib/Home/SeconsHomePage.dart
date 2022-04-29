@@ -37,89 +37,100 @@ class SecondHomePage extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Details(
+                                c.schools, index, c.schools[index]['idSchool']),
+                          ),
+                        );
+                      },
+                      child: InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
+                          Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => Details(c.schools, index,
-                                  c.schools[index]['idSchool']),
-                            ),
-                          );
+                                  c.schools[index]['idSchool'])));
                         },
-                        child: InkWell(
-                          onTap: (){
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context)=>Details(c.schools,index,c.schools[index]['idSchool'])));
-                          },
-                          child: Container(
-                            decoration: const BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(10)),
-                              color: Color(0xFFECF0F3),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey,
-                                  offset: Offset(0, 10),
-                                  blurRadius: 10,
-                                ),
-                                BoxShadow(
-                                  color: Colors.grey,
-                                  offset: Offset(0, -10),
-                                  blurRadius: 10,
-                                ),
-                                BoxShadow(
-                                  color: Colors.grey,
-                                  offset: Offset(-10, -10),
-                                  blurRadius: 10,
-                                ),
-                                BoxShadow(
-                                  color: Colors.grey,
-                                  offset: Offset(10, -10),
-                                  blurRadius: 10,
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            CircleAvatar(
-                                              backgroundColor: Color(0xFF0b4972),
-                                              child: Text(
-                                                c.schools[index]['idSchool']
-                                                    .toString(),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
+                        child: Container(
+                          decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                            color: Color(0xFFECF0F3),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey,
+                                offset: Offset(0, 5),
+                                blurRadius: 5,
+                              ),
+                              BoxShadow(
+                                color: Colors.grey,
+                                offset: Offset(0, -5),
+                                blurRadius: 5,
+                              ),
+                              BoxShadow(
+                                color: Colors.grey,
+                                offset: Offset(-5, -5),
+                                blurRadius: 5,
+                              ),
+                              BoxShadow(
+                                color: Colors.grey,
+                                offset: Offset(5, -5),
+                                blurRadius: 10,
+                              ),
+                            ],
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          CircleAvatar(
+                                            backgroundColor:
+                                                const Color(0xFF0b4972),
+                                            child: Icon(Icons.school_sharp)
+                                          ),
+                                        ],
                                       ),
-                                      Expanded(
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          children: [
-                                            Column(
+                                    ),
+                                    Expanded(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          Expanded(
+                                            child: Column(
                                               children: [
-                                                Text(c.schools[index]['name'],style: TextStyle(color: Colors.black,fontSize: 20)),
-                                                SizedBox(height: 10),
-                                                Text(c.schools[index]['address']),
+                                                Text(
+                                                  c.schools[index]['name'],
+                                                  style: const TextStyle(
+                                                    color: Colors.black,
+                                                    fontSize: 20,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 10),
+                                                Text(c.schools[index]
+                                                    ['address']),
                                               ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
-                        )),
+                        ),
+                      ),
+                    ),
                   );
                 },
               ),

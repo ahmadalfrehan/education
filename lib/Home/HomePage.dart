@@ -1,7 +1,9 @@
 import 'package:education_evaluation/Cubit/cubit.dart';
 import 'package:education_evaluation/DetailsScreens/DetailsSchools.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../Add/Add_Teacher.dart';
 import '../Cubit/states.dart';
 import '../DetailsScreens/TeacherDetails.dart';
 
@@ -11,6 +13,11 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int idSchool = 1;
+    int indeX = 0;
+    print(MediaQuery
+        .of(context)
+        .size
+        .height);
     return BlocConsumer<Education, Educational>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -18,7 +25,10 @@ class HomePage extends StatelessWidget {
           body: Stack(
             children: [
               Container(
-                height: MediaQuery.of(context).size.height / 3.5,
+                height: MediaQuery
+                    .of(context)
+                    .size
+                    .height / 3.5,
                 decoration: const BoxDecoration(
                   color: Color(0xFF0b4972),
                   borderRadius: BorderRadius.only(
@@ -39,7 +49,10 @@ class HomePage extends StatelessWidget {
                           'الجمهورية العربية السورية \n وزارة التربية ',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: MediaQuery.of(context).size.width < 350
+                            fontSize: MediaQuery
+                                .of(context)
+                                .size
+                                .width < 350
                                 ? 12
                                 : 20,
                             fontWeight: FontWeight.bold,
@@ -58,31 +71,48 @@ class HomePage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Container(
-                        margin: const EdgeInsets.symmetric(vertical: 15),
+                        margin: EdgeInsets.symmetric(
+                            vertical: MediaQuery
+                                .of(context)
+                                .size
+                                .height > 764
+                                ? 20
+                                : 0),
                         height: 30,
                         child: ListView.builder(
                           physics: const BouncingScrollPhysics(),
                           scrollDirection: Axis.horizontal,
-                          itemCount: Education.get(context).schools.length,
+                          itemCount: Education
+                              .get(context)
+                              .schools
+                              .length,
                           itemBuilder: (context, index) {
                             return InkWell(
                               onLongPress: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => Details(
-                                      Education.get(context).schools,
-                                      index,
-                                      Education.get(context).schools[index]
+                                    builder: (context) =>
+                                        Details(
+                                          Education
+                                              .get(context)
+                                              .schools,
+                                          index,
+                                          Education
+                                              .get(context)
+                                              .schools[index]
                                           ['idSchool'],
-                                    ),
+                                        ),
                                   ),
                                 );
                               },
                               onTap: () {
                                 Education.get(context).changeIndex(index);
-                                idSchool = Education.get(context).schools[index]
-                                    ['idSchool'];
+                                idSchool = Education
+                                    .get(context)
+                                    .schools[index]
+                                ['idSchool'];
+                                indeX = index;
                               },
                               child: Container(
                                 alignment: Alignment.center,
@@ -91,16 +121,21 @@ class HomePage extends StatelessWidget {
                                   horizontal: 15,
                                 ),
                                 child: Text(
-                                  Education.get(context)
+                                  Education
+                                      .get(context)
                                       .schools[index]['name']
                                       .toString(),
                                   style: TextStyle(
                                       color: index ==
-                                              Education.get(context).selected
+                                          Education
+                                              .get(context)
+                                              .selected
                                           ? const Color(0xFFd5b614)
                                           : Colors.white,
                                       fontSize: index ==
-                                              Education.get(context).selected
+                                          Education
+                                              .get(context)
+                                              .selected
                                           ? 20
                                           : 11),
                                 ),
@@ -109,459 +144,558 @@ class HomePage extends StatelessWidget {
                           },
                         ),
                       ),
-                      //SizedBox(height: 70,),
+                      if (MediaQuery
+                          .of(context)
+                          .size
+                          .height >= 666)
+                        const SizedBox(height: 70),
                       Container(
                         margin: const EdgeInsets.symmetric(vertical: 15),
-                        height: MediaQuery.of(context).size.height / 2.2,
+                        height: MediaQuery
+                            .of(context)
+                            .size
+                            .height / 2.2,
                         child: Center(
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: Education.get(context).teachers.length,
+                            itemCount: Education
+                                .get(context)
+                                .teachers
+                                .length,
                             itemBuilder: (context, index) {
                               return idSchool ==
-                                      Education.get(context).teachers[index]
-                                          ['idSchool']
+                                  Education
+                                      .get(context)
+                                      .teachers[index]
+                                  ['idSchool']
                                   ? InkWell(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                TeacherDetails(
-                                                    list: Education.get(context)
-                                                        .teachers,
-                                                    index: index),
-                                          ),
-                                        );
-                                      },
-                                      child: Stack(
-                                        alignment: Alignment.topLeft,
-                                        children: [
-                                          Card(
-                                            shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(20)),
-                                            borderOnForeground: true,
-                                            elevation: 20,
-                                            child: Container(
-                                              height: MediaQuery.of(context)
-                                                      .size
-                                                      .height /
-                                                  2.5,
-                                              width: MediaQuery.of(context)
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          TeacherDetails(
+                                              list: Education
+                                                  .get(context)
+                                                  .teachers,
+                                              index: index),
+                                    ),
+                                  );
+                                },
+                                child: Stack(
+                                  alignment: Alignment.topLeft,
+                                  children: [
+                                    Card(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                          BorderRadius.circular(20)),
+                                      borderOnForeground: true,
+                                      elevation: 20,
+                                      child: Container(
+                                        height: MediaQuery
+                                            .of(context)
+                                            .size
+                                            .height /
+                                            2.5,
+                                        width: MediaQuery
+                                            .of(context)
+                                            .size
+                                            .width /
+                                            1.2,
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                          BorderRadius.circular(30),
+                                        ),
+                                        child: Padding(
+                                          padding:
+                                          const EdgeInsets.all(8.0),
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment
+                                                  .start,
+                                              children: [
+                                                const SizedBox(
+                                                  height: 30,
+                                                ),
+                                                Container(
+                                                  height: 50,
+                                                  width: MediaQuery
+                                                      .of(
+                                                      context)
                                                       .size
                                                       .width /
-                                                  1.2,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(30),
-                                              ),
-                                              child: Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
-                                                child: SingleChildScrollView(
-                                                  child: Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
+                                                      1.2,
+                                                  decoration:
+                                                  BoxDecoration(
+                                                    border: Border.all(
+                                                        color:
+                                                        Colors.black),
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(10),
+                                                  ),
+                                                  child: Row(
                                                     children: [
                                                       const SizedBox(
-                                                        height: 30,
+                                                        width: 5,
                                                       ),
-                                                      Container(
-                                                        height: 50,
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            1.2,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.black),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                        ),
-                                                        child: Row(
-                                                          children: [
-                                                            const SizedBox(
-                                                              width: 5,
-                                                            ),
-                                                            Text(
-                                                              'اسم المدرس الكامل: ' +
-                                                                  Education.get(
-                                                                              context)
-                                                                          .teachers[
-                                                                      index]['name'],
-                                                            ),
-                                                          ],
-                                                        ),
+                                                      Text(
+                                                        'اسم المدرس : ' +
+                                                            Education
+                                                                .get(
+                                                                context)
+                                                                .teachers[
+                                                            index]['name'],
                                                       ),
-                                                      const SizedBox(height: 4),
-                                                      Container(
-                                                        height: 50,
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            1.2,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.black),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                        ),
-                                                        child: Row(
-                                                          children: [
-                                                            const SizedBox(
-                                                              width: 5,
-                                                            ),
-                                                            Text('المدرسة : ' +
-                                                                Education.get(
-                                                                            context)
-                                                                        .teachers[
-                                                                    index]['phone']),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      const SizedBox(height: 4),
-                                                      Container(
-                                                        height: 50,
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            1.2,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.black),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                        ),
-                                                        child: Row(
-                                                          children: [
-                                                            const SizedBox(
-                                                              width: 5,
-                                                            ),
-                                                            Text('المادة : ' +
-                                                                Education.get(
-                                                                            context)
-                                                                        .teachers[
-                                                                    index]['item']),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      const SizedBox(height: 4),
-                                                      Container(
-                                                        height: 50,
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            1.2,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.black),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                        ),
-                                                        child: Row(
-                                                          children: [
-                                                            const SizedBox(
-                                                              width: 5,
-                                                            ),
-                                                            Text('الصف : ' +
-                                                                Education.get(
-                                                                            context)
-                                                                        .teachers[
-                                                                    index]['class']),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      const SizedBox(height: 4),
-                                                      Container(
-                                                        height: 50,
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            1.2,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.black),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                        ),
-                                                        child: Row(
-                                                          children: [
-                                                            const SizedBox(
-                                                              width: 5,
-                                                            ),
-                                                            Text('الشعبة : ' +
-                                                                Education.get(context)
-                                                                            .teachers[
-                                                                        index][
-                                                                    'division']),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      const SizedBox(height: 4),
-                                                      Container(
-                                                        height: 50,
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            1.2,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.black),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                        ),
-                                                        child: Row(
-                                                          children: [
-                                                            const SizedBox(
-                                                              width: 5,
-                                                            ),
-                                                            Text('التاريخ : ' +
-                                                                Education.get(
-                                                                            context)
-                                                                        .teachers[
-                                                                    index]['date']),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      const SizedBox(height: 4),
-                                                      Container(
-                                                        height: 50,
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            1.2,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.black),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                        ),
-                                                        child: Row(
-                                                          children: [
-                                                            const SizedBox(
-                                                              width: 5,
-                                                            ),
-                                                            Text('عنوان الدرس : ' +
-                                                                Education.get(context)
-                                                                            .teachers[
-                                                                        index][
-                                                                    'titleOfLesson']),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      const SizedBox(height: 4),
-                                                      Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            1.2,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.black),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                        ),
-                                                        child: Text(
-                                                          "التخطيط : \n" +
-                                                              Education.get(
-                                                                          context)
-                                                                      .teachers[
-                                                                  index]['planning'],
-                                                        ),
-                                                      ),
-                                                      const SizedBox(height: 4),
-                                                      Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            1.2,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.black),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                        ),
-                                                        child: Text("التنفيذ(طرق التدريس والتمكن من المادة ) : \n" +
-                                                            Education.get(
-                                                                        context)
-                                                                    .teachers[index]
-                                                                ['execution']),
-                                                      ),
-                                                      const SizedBox(height: 4),
-                                                      Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            1.2,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.black),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                        ),
-                                                        child: Text("التقويم البنائي والنهائي والغلق : \n" +
-                                                            Education.get(
-                                                                        context)
-                                                                    .teachers[index]
-                                                                ['calender']),
-                                                      ),
-                                                      const SizedBox(height: 4),
-                                                      Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            1.2,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.black),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                        ),
-                                                        child: Text("إدارة الصف والعلاقات الإنسانية : \n" +
-                                                            Education.get(
-                                                                        context)
-                                                                    .teachers[
-                                                                index]['cAhR']),
-                                                      ),
-                                                      const SizedBox(height: 4),
-                                                      Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            1.2,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.black),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                        ),
-                                                        child: Text("مجال التخطيط : \n" +
-                                                            Education.get(context)
-                                                                        .teachers[
-                                                                    index][
-                                                                'planningField']),
-                                                      ),
-                                                      const SizedBox(height: 4),
-                                                      Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            1.2,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.black),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                        ),
-                                                        child: Text("المجال العلمي : \n" +
-                                                            Education.get(context)
-                                                                        .teachers[
-                                                                    index][
-                                                                'scientificField']),
-                                                      ),
-                                                      const SizedBox(height: 4),
-                                                      Container(
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width /
-                                                            1.2,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.black),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                        ),
-                                                        child: Text("المجال التربوي والتقويم : \n" +
-                                                            Education.get(context)
-                                                                        .teachers[
-                                                                    index][
-                                                                'educationalField']),
-                                                      ),
-                                                      const SizedBox(height: 4),
                                                     ],
                                                   ),
                                                 ),
-                                              ),
+                                                const SizedBox(height: 4),
+                                                Container(
+                                                  height: 50,
+                                                  width: MediaQuery
+                                                      .of(
+                                                      context)
+                                                      .size
+                                                      .width /
+                                                      1.2,
+                                                  decoration:
+                                                  BoxDecoration(
+                                                    border: Border.all(
+                                                        color:
+                                                        Colors.black),
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(10),
+                                                  ),
+                                                  child: Row(
+                                                    children: [
+                                                      const SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text('المدرسة : ' +
+                                                          Education
+                                                              .get(
+                                                              context)
+                                                              .teachers[
+                                                          index]['phone']),
+                                                    ],
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 4),
+                                                Container(
+                                                  height: 50,
+                                                  width: MediaQuery
+                                                      .of(
+                                                      context)
+                                                      .size
+                                                      .width /
+                                                      1.2,
+                                                  decoration:
+                                                  BoxDecoration(
+                                                    border: Border.all(
+                                                        color:
+                                                        Colors.black),
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(10),
+                                                  ),
+                                                  child: Row(
+                                                    children: [
+                                                      const SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text('المادة : ' +
+                                                          Education
+                                                              .get(
+                                                              context)
+                                                              .teachers[
+                                                          index]['item']),
+                                                    ],
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 4),
+                                                Container(
+                                                  height: 50,
+                                                  width: MediaQuery
+                                                      .of(
+                                                      context)
+                                                      .size
+                                                      .width /
+                                                      1.2,
+                                                  decoration:
+                                                  BoxDecoration(
+                                                    border: Border.all(
+                                                        color:
+                                                        Colors.black),
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(10),
+                                                  ),
+                                                  child: Row(
+                                                    children: [
+                                                      const SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text('الصف : ' +
+                                                          Education
+                                                              .get(
+                                                              context)
+                                                              .teachers[
+                                                          index]['class']),
+                                                    ],
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 4),
+                                                Container(
+                                                  height: 50,
+                                                  width: MediaQuery
+                                                      .of(
+                                                      context)
+                                                      .size
+                                                      .width /
+                                                      1.2,
+                                                  decoration:
+                                                  BoxDecoration(
+                                                    border: Border.all(
+                                                        color:
+                                                        Colors.black),
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(10),
+                                                  ),
+                                                  child: Row(
+                                                    children: [
+                                                      const SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text('الشعبة : ' +
+                                                          Education
+                                                              .get(context)
+                                                              .teachers[
+                                                          index][
+                                                          'division']),
+                                                    ],
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 4),
+                                                Container(
+                                                  height: 50,
+                                                  width: MediaQuery
+                                                      .of(
+                                                      context)
+                                                      .size
+                                                      .width /
+                                                      1.2,
+                                                  decoration:
+                                                  BoxDecoration(
+                                                    border: Border.all(
+                                                        color:
+                                                        Colors.black),
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(10),
+                                                  ),
+                                                  child: Row(
+                                                    children: [
+                                                      const SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text('التاريخ : ' +
+                                                          Education
+                                                              .get(
+                                                              context)
+                                                              .teachers[
+                                                          index]['date']),
+                                                    ],
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 4),
+                                                Container(
+                                                  height: 50,
+                                                  width: MediaQuery
+                                                      .of(
+                                                      context)
+                                                      .size
+                                                      .width /
+                                                      1.2,
+                                                  decoration:
+                                                  BoxDecoration(
+                                                    border: Border.all(
+                                                        color:
+                                                        Colors.black),
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(10),
+                                                  ),
+                                                  child: Row(
+                                                    children: [
+                                                      const SizedBox(
+                                                        width: 5,
+                                                      ),
+                                                      Text('عنوان الدرس : ' +
+                                                          Education
+                                                              .get(context)
+                                                              .teachers[
+                                                          index][
+                                                          'titleOfLesson']),
+                                                    ],
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 4),
+                                                Container(
+                                                  width: MediaQuery
+                                                      .of(
+                                                      context)
+                                                      .size
+                                                      .width /
+                                                      1.2,
+                                                  decoration:
+                                                  BoxDecoration(
+                                                    border: Border.all(
+                                                        color:
+                                                        Colors.black),
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(10),
+                                                  ),
+                                                  child: Text(
+                                                    "التخطيط : \n" +
+                                                        Education
+                                                            .get(
+                                                            context)
+                                                            .teachers[
+                                                        index]['planning'],
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 4),
+                                                Container(
+                                                  width: MediaQuery
+                                                      .of(
+                                                      context)
+                                                      .size
+                                                      .width /
+                                                      1.2,
+                                                  decoration:
+                                                  BoxDecoration(
+                                                    border: Border.all(
+                                                        color:
+                                                        Colors.black),
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(10),
+                                                  ),
+                                                  child: Text(
+                                                      "التنفيذ(طرق التدريس والتمكن من المادة ) : \n" +
+                                                          Education
+                                                              .get(
+                                                              context)
+                                                              .teachers[index]
+                                                          ['execution']),
+                                                ),
+                                                const SizedBox(height: 4),
+                                                Container(
+                                                  width: MediaQuery
+                                                      .of(
+                                                      context)
+                                                      .size
+                                                      .width /
+                                                      1.2,
+                                                  decoration:
+                                                  BoxDecoration(
+                                                    border: Border.all(
+                                                        color:
+                                                        Colors.black),
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(10),
+                                                  ),
+                                                  child: Text(
+                                                      "التقويم البنائي والنهائي والغلق : \n" +
+                                                          Education
+                                                              .get(
+                                                              context)
+                                                              .teachers[index]
+                                                          ['calender']),
+                                                ),
+                                                const SizedBox(height: 4),
+                                                Container(
+                                                  width: MediaQuery
+                                                      .of(
+                                                      context)
+                                                      .size
+                                                      .width /
+                                                      1.2,
+                                                  decoration:
+                                                  BoxDecoration(
+                                                    border: Border.all(
+                                                        color:
+                                                        Colors.black),
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(10),
+                                                  ),
+                                                  child: Text(
+                                                      "إدارة الصف والعلاقات الإنسانية : \n" +
+                                                          Education
+                                                              .get(
+                                                              context)
+                                                              .teachers[
+                                                          index]['cAhR']),
+                                                ),
+                                                const SizedBox(height: 4),
+                                                Container(
+                                                  width: MediaQuery
+                                                      .of(
+                                                      context)
+                                                      .size
+                                                      .width /
+                                                      1.2,
+                                                  decoration:
+                                                  BoxDecoration(
+                                                    border: Border.all(
+                                                        color:
+                                                        Colors.black),
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(10),
+                                                  ),
+                                                  child: Text(
+                                                      "مجال التخطيط : \n" +
+                                                          Education
+                                                              .get(context)
+                                                              .teachers[
+                                                          index][
+                                                          'planningField']),
+                                                ),
+                                                const SizedBox(height: 4),
+                                                Container(
+                                                  width: MediaQuery
+                                                      .of(
+                                                      context)
+                                                      .size
+                                                      .width /
+                                                      1.2,
+                                                  decoration:
+                                                  BoxDecoration(
+                                                    border: Border.all(
+                                                        color:
+                                                        Colors.black),
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(10),
+                                                  ),
+                                                  child: Text(
+                                                      "المجال العلمي : \n" +
+                                                          Education
+                                                              .get(context)
+                                                              .teachers[
+                                                          index][
+                                                          'scientificField']),
+                                                ),
+                                                const SizedBox(height: 4),
+                                                Container(
+                                                  width: MediaQuery
+                                                      .of(
+                                                      context)
+                                                      .size
+                                                      .width /
+                                                      1.2,
+                                                  decoration:
+                                                  BoxDecoration(
+                                                    border: Border.all(
+                                                        color:
+                                                        Colors.black),
+                                                    borderRadius:
+                                                    BorderRadius
+                                                        .circular(10),
+                                                  ),
+                                                  child: Text(
+                                                      "المجال التربوي والتقويم : \n" +
+                                                          Education
+                                                              .get(context)
+                                                              .teachers[
+                                                          index][
+                                                          'educationalField']),
+                                                ),
+                                                const SizedBox(height: 4),
+                                              ],
                                             ),
                                           ),
-                                          CircleAvatar(
-                                            child: Text(Education.get(context)
-                                                .teachers[index]['idTeacher']
-                                                .toString(),style: TextStyle(color:Colors.white)),
-                                            backgroundColor: const Color(0xFF0b4972),
-                                          ),
-                                        ],
+                                        ),
                                       ),
-                                    )
+                                    ),
+                                    const CircleAvatar(
+                                      child: Icon(Icons.person),
+                                      backgroundColor: Color(0xFF0b4972),
+                                    ),
+                                  ],
+                                ),
+                              )
                                   : Container();
                             },
                           ),
                         ),
                       ),
+                      if (MediaQuery
+                          .of(context)
+                          .size
+                          .height >= 666 &&
+                          Education
+                              .get(context)
+                              .schools
+                              .isNotEmpty)
+                        MaterialButton(
+                          color: const Color(0xFF0b4972),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    AddTeacher(
+                                        indeX, Education
+                                        .get(context)
+                                        .schools),
+                              ),
+                            );
+                          },
+                          height: 45,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30)),
+                          child: const Text('Add Teacher?',
+                            textDirection: TextDirection.ltr,
+                            style: TextStyle(color: Colors.white,),),
+                        ),
                     ],
                   ),
                 ),
               ),
             ],
           ),
+          floatingActionButton: MediaQuery
+              .of(context)
+              .size
+              .height <= 666 &&
+              Education
+                  .get(context)
+                  .schools
+                  .isNotEmpty
+              ? FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        AddTeacher(indeX, Education
+                            .get(context)
+                            .schools),
+                  ),
+                );
+              },
+              backgroundColor: const Color(0xFF0b4972),
+              child: Text('Add'))
+              : Container(),
         );
       },
     );

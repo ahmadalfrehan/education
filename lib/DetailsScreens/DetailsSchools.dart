@@ -1,12 +1,15 @@
 import 'dart:async';
+import 'package:education_evaluation/DetailsScreens/DetailsSchoolMore.dart';
 import 'package:education_evaluation/DetailsScreens/TeacherDetails.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../Add/Add_Teacher.dart';
 import '../Add/Edit.dart';
+import '../Add/EditSchool.dart';
 import '../Cubit/cubit.dart';
 import '../Cubit/states.dart';
 import '../HomeLayout.dart';
+import '../Search/Search.dart';
 
 class Details extends StatelessWidget {
   List list = [];
@@ -43,15 +46,6 @@ class Details extends StatelessWidget {
               content: Text('successfully deleted the item'),
             ),
           );
-          Timer(
-            const Duration(seconds: 1),
-            () => Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const HomeLayout(),
-              ),
-            ),
-          );
         }
       },
       builder: (context, state) {
@@ -60,6 +54,34 @@ class Details extends StatelessWidget {
           key: Scaffoldkey,
           appBar: AppBar(
             elevation: 0.0,
+            actions: [
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditSchool(index, list),
+                    ),
+                  );
+                },
+                icon: const Icon(
+                  Icons.edit,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SearcH(),
+                    ),
+                  );
+                },
+                icon: const Icon(
+                  Icons.search,
+                ),
+              ),
+            ],
             backgroundColor: const Color(0xFF0b4972),
             centerTitle: false,
             title: const Text(
@@ -115,7 +137,7 @@ class Details extends StatelessWidget {
                                 ),
                                 Text(
                                   'المحافظة او العنوان  : ' +
-                                      list[index]['address'],
+                                      list[index]['address'].toString(),
                                   style: TextStyle(
                                     fontSize:
                                         MediaQuery.of(context).textScaleFactor *
@@ -123,32 +145,18 @@ class Details extends StatelessWidget {
                                     color: const Color(0xFF000000),
                                   ),
                                 ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                Text(
-                                  'المدير : ' + list[index]['manager'],
-                                  style: const TextStyle(),
-                                ),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                GestureDetector(
-                                  onTap: () async {
-                                    print('phone');
-                                    await c.makePhoneCall(list[index]['phone']);
-                                  },
-                                  child: Row(
-                                    children: [
-                                      Text('الهاتف : '),
-                                      Text(
-                                        list[index]['phone'],
-                                        style: const TextStyle(
-                                          color: Colors.blue,
-                                        ),
+                                MaterialButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DetailsSchoolMore(
+                                            list, index, idSchool),
                                       ),
-                                    ],
-                                  ),
+                                    );
+                                  },
+                                  child: const Text('See More...?',
+                                      textDirection: TextDirection.ltr),
                                 ),
                               ],
                             ),
@@ -218,23 +226,14 @@ class Details extends StatelessWidget {
                                               height: 10,
                                             ),
                                             Row(
-                                              children: [
-                                                const SizedBox(
+                                              children: const [
+                                                SizedBox(
                                                   width: 10,
                                                 ),
                                                 CircleAvatar(
-                                                  backgroundColor:
-                                                      const Color(0xFF0b4972),
-                                                  child: Text(
-                                                    c.teachers[index]
-                                                            ['idTeacher']
-                                                        .toString(),
-                                                    style: const TextStyle(
-                                                      fontSize: 22,
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                ),
+                                                    backgroundColor:
+                                                        Color(0xFF0b4972),
+                                                    child: Icon(Icons.person)),
                                               ],
                                             ),
                                             const SizedBox(
@@ -336,7 +335,7 @@ class Details extends StatelessWidget {
                 ),
               );
             },
-            child: Text('Add'),
+            child: const Text('Add'),
           ),
         );
       },

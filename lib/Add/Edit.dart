@@ -29,8 +29,6 @@ class Edit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var E = Education.get(context);
-    var c = Education.get(context);
     return BlocConsumer<Education, Educational>(
       listener: (context, state) {
         if (state is EducationalUpdateSuccessState) {
@@ -51,12 +49,14 @@ class Edit extends StatelessWidget {
         }
       },
       builder: (context, state) {
+        var E = Education.get(context);
+        var c = Education.get(context);
         return Scaffold(
           backgroundColor: const Color(0xFFECF0F3),
           appBar: AppBar(
             elevation: 0.0,
-            backgroundColor:  Colors.blueAccent,
-            title:const Text(
+            backgroundColor: const Color(0xFF0b4972),
+            title: const Text(
               'Edit',
               style: TextStyle(
                 color: Colors.white,
@@ -106,13 +106,29 @@ class Edit extends StatelessWidget {
                           list[index]['titleOfLesson']),
                       TextFormF("تعديل المادة ", Icons.price_change,
                           itemController, c, list[index]['item']),
-                      textFormF('تعديل التخطيط', planningController, E,list[index]['planning']),
-                      textFormF('تعديل التنفيذ (طرائق التدريس والتمكن من المادة)', executionController, E,list[index]['execution']),
-                      textFormF('تعديل التقويم البنائي والنهائي والغلق', calenderController, E,list[index]['calender']),
-                      textFormF('تعديل إدارة الصف والعلاقات الإنسانية', cAhRController, E,list[index]['cAhR']),
-                      textFormF('تعديل مجال التخطيط', planningFieldController, E,list[index]['planningField']),
-                      textFormF('تعديل المجال العلمي', scientificFieldController, E,list[index]['scientificField']),
-                      textFormF('تعديل المجال التربوي والتقويم', educationalFieldController, E,list[index]['educationalField']),
+                      textFormF('تعديل التخطيط', planningController, E,
+                          list[index]['planning']),
+                      textFormF(
+                          'تعديل التنفيذ (طرائق التدريس والتمكن من المادة)',
+                          executionController,
+                          E,
+                          list[index]['execution']),
+                      textFormF('تعديل التقويم البنائي والنهائي والغلق',
+                          calenderController, E, list[index]['calender']),
+                      textFormF('تعديل إدارة الصف والعلاقات الإنسانية',
+                          cAhRController, E, list[index]['cAhR']),
+                      textFormF('تعديل مجال التخطيط', planningFieldController,
+                          E, list[index]['planningField']),
+                      textFormF(
+                          'تعديل المجال العلمي',
+                          scientificFieldController,
+                          E,
+                          list[index]['scientificField']),
+                      textFormF(
+                          'تعديل المجال التربوي والتقويم',
+                          educationalFieldController,
+                          E,
+                          list[index]['educationalField']),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           side: BorderSide(
@@ -120,7 +136,7 @@ class Edit extends StatelessWidget {
                             width: 2,
                           ),
                           elevation: 0.0,
-                          primary: const Color(0xFFe6bd60),
+                          primary: const Color(0xFF0b4972),
                           fixedSize: const Size(350, 40),
                           shape: const StadiumBorder(),
                         ),
@@ -144,10 +160,11 @@ class Edit extends StatelessWidget {
                             idTeacher: list[index]['idTeacher'],
                           );
                         },
-                        child: Text(
+                        child: const Text(
                           ' Edit ?',
+                          textDirection: TextDirection.ltr,
                           style: TextStyle(
-                            color: c.Color1,
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
                           ),
@@ -164,8 +181,8 @@ class Edit extends StatelessWidget {
     );
   }
 
-  Widget textFormF(String lab, var x, var c,String hint) {
-    x.text=hint;
+  Widget textFormF(String lab, var x, var c, String hint) {
+    x.text = hint;
     return Padding(
       padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
       child: TextFormField(

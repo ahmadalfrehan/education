@@ -149,6 +149,7 @@ class Education extends Cubit<Educational> {
         emit(EducationalAddTeacherSuccessState(value.toString()));
         print('$value inserted successfully');
         getDataFromDatabaseWhereTableIsTeacher(database);
+        getDataFromDatabase(database);
       }).catchError((onError) {
         print('error when insert to data base ${onError}');
         emit(EducationalAddTeacherErrorState());
@@ -192,6 +193,7 @@ class Education extends Cubit<Educational> {
       main();
     });
   }
+
   deleteFromDataBase({required int id}) async {
     await database!
         .rawDelete('DELETE FROM teacher WHERE idTeacher=?', [id]).then((value) {
@@ -204,18 +206,36 @@ class Education extends Cubit<Educational> {
     });
   }
 
-  List<Map<dynamic, dynamic>> Search = [];
-
-  void SearchInDelete(String text) async {
-    Search.clear();
+  List<Map<dynamic, dynamic>> search = [];
+  List<Map<dynamic, dynamic>> searchTeachers = [];
+  //(name, phone ,class ,division ,date ,titleOfLesson ,item ,planning ,execution ,calender ,cAhR ,planningField,scientificField ,educationalField,idSchool )
+  void searchInTableSchool(String text) async {
+    search.clear();
     database!
         .rawQuery(
             "SELECT * FROM school WHERE name LIKE '%${text}%' OR  address LIKE '%${text}%' OR  phone LIKE '%${text}%' OR  manager LIKE '%${text}%' OR  managerPhone LIKE '%${text}%' OR  stage LIKE '%${text}%'")
         .then((value) {
-      value.forEach((element) {
+      for (var element in value) {
         emit(EducationalSearchSuccessState());
-        Search.add(element);
-      });
+        search.add(element);
+      }
+    }).catchError(
+      (onError) {
+        print('error when insert to database ${onError}');
+        emit(EducationalSearchErrorState());
+      },
+    );
+  }
+  void searchInTableTeacher(String text) async {
+    search.clear();
+    database!
+        .rawQuery(
+            "SELECT * FROM teacher WHERE name LIKE '%${text}%' OR  item LIKE '%${text}%' OR  date LIKE '%${text}%' OR  class LIKE '%${text}%' OR  phone LIKE '%${text}%' OR  titleOfLesson LIKE '%${text}%'")
+        .then((value) {
+      for (var element in value) {
+        emit(EducationalSearchSuccessState());
+        search.add(element);
+      }
     }).catchError(
       (onError) {
         print('error when insert to database ${onError}');
@@ -226,7 +246,6 @@ class Education extends Cubit<Educational> {
 
   bool ty = true;
 
-  //(name ,address , phone, manager, managerPhone,type ,stage)
   updateInSchoolTableDataBase({
     required String name,
     required String address,
@@ -585,4 +604,11 @@ class Education extends Cubit<Educational> {
         markScientificField3 +
         "\n";
   }
+  var itemController = TextEditingController();
+  var nameController = TextEditingController();
+  var phoneController = TextEditingController();
+  var classController = TextEditingController();
+  var divisionController = TextEditingController();
+  var dateController = TextEditingController();
+  var titleOfLessonController = TextEditingController();
 }

@@ -20,7 +20,6 @@ class EditSchool extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var E = Education.get(context);
     var c = Education.get(context);
     return BlocConsumer<Education, Educational>(
       listener: (context, state) {
