@@ -39,11 +39,12 @@ class Edit extends StatelessWidget {
           );
           Timer(
             const Duration(seconds: 1),
-            () => Navigator.pushReplacement(
+                () => Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomeLayout(),
+                builder: (context) =>  HomeLayout(),
               ),
+                  (route) => false,
             ),
           );
         }

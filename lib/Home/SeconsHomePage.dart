@@ -55,27 +55,12 @@ class SecondHomePage extends StatelessWidget {
                         child: Container(
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(10)),
-                            color: Color(0xFFECF0F3),
+                            color: Colors.white,
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.grey,
-                                offset: Offset(0, 5),
+                                offset: Offset(0, 8),
                                 blurRadius: 5,
-                              ),
-                              BoxShadow(
-                                color: Colors.grey,
-                                offset: Offset(0, -5),
-                                blurRadius: 5,
-                              ),
-                              BoxShadow(
-                                color: Colors.grey,
-                                offset: Offset(-5, -5),
-                                blurRadius: 5,
-                              ),
-                              BoxShadow(
-                                color: Colors.grey,
-                                offset: Offset(5, -5),
-                                blurRadius: 10,
                               ),
                             ],
                           ),
@@ -90,7 +75,7 @@ class SecondHomePage extends StatelessWidget {
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
-                                        children: [
+                                        children: const[
                                           CircleAvatar(
                                             backgroundColor:
                                                 const Color(0xFF0b4972),

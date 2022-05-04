@@ -21,39 +21,41 @@ class TeacherDetails extends StatelessWidget {
     var E = Education.get(context);
     return BlocConsumer<Education, Educational>(
       listener: (context, state) {
-    if (state is EducationalUpdateStatusSuccessState) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('successfully added it archive'),
-        ),
-      );
-      Timer(
-        const Duration(seconds: 1),
-            () => Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const HomeLayout(),
-          ),
-        ),
-      );
-    }
-    if (state is EducationalDeleteSuccessState) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('successfully deleted the item'),
-        ),
-      );
-      Timer(
-        const Duration(seconds: 1),
-            () => Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const HomeLayout(),
-          ),
-        ),
-      );
-    }
-    },
+        if (state is EducationalUpdateStatusSuccessState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('successfully added it archive'),
+            ),
+          );
+          Timer(
+            const Duration(seconds: 1),
+            () => Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomeLayout(),
+              ),
+              (route) => false,
+            ),
+          );
+        }
+        if (state is EducationalDeleteSuccessState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('successfully deleted the item'),
+            ),
+          );
+          Timer(
+            const Duration(seconds: 1),
+            () => Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomeLayout(),
+              ),
+              (route) => false,
+            ),
+          );
+        }
+      },
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
@@ -74,9 +76,7 @@ class TeacherDetails extends StatelessWidget {
                 ),
               ),
               IconButton(
-                onPressed: () async {
-
-                },
+                onPressed: () async {},
                 icon: const Icon(
                   Icons.send,
                 ),
@@ -100,7 +100,6 @@ class TeacherDetails extends StatelessWidget {
                 },
                 icon: const Icon(
                   Icons.search,
-
                 ),
               ),
             ],
@@ -137,8 +136,7 @@ class TeacherDetails extends StatelessWidget {
                                       width: 5,
                                     ),
                                     Text(
-                                      'اسم المدرس : ' +
-                                          list[index]['name'],
+                                      'اسم المدرس : ' + list[index]['name'],
                                     ),
                                   ],
                                 ),
@@ -203,8 +201,8 @@ class TeacherDetails extends StatelessWidget {
                                     const SizedBox(
                                       width: 5,
                                     ),
-                                    Text('الشعبة  : ' +
-                                        list[index]['division']),
+                                    Text(
+                                        'الشعبة  : ' + list[index]['division']),
                                   ],
                                 ),
                               ),
@@ -266,61 +264,77 @@ class TeacherDetails extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
+                                width: MediaQuery.of(context).size.width,
                                 decoration: BoxDecoration(
                                   border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                child: Text('التخطيط : \n'+
-                                  list[index]['planning'],
+                                child: Text(
+                                  'التخطيط : \n' + list[index]['planning'],
                                 ),
                               ),
                               const SizedBox(height: 4),
                               Container(
+                                width: MediaQuery.of(context).size.width,
                                 decoration: BoxDecoration(
                                   border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                child: Text('التنفيذ (طرائق التدريس والتمكن من المادة) :\n'+list[index]['execution']),
+                                child: Text(
+                                    'التنفيذ (طرائق التدريس والتمكن من المادة) :\n' +
+                                        list[index]['execution']),
                               ),
                               const SizedBox(height: 4),
                               Container(
+                                width: MediaQuery.of(context).size.width,
                                 decoration: BoxDecoration(
                                   border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                child: Text('التقويم البنائي والنهائي والغلق :\n'+list[index]['calender']),
+                                child: Text(
+                                    'التقويم البنائي والنهائي والغلق :\n' +
+                                        list[index]['calender']),
                               ),
                               const SizedBox(height: 4),
                               Container(
+                                width: MediaQuery.of(context).size.width,
                                 decoration: BoxDecoration(
                                   border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                child: Text('إدارة الصف والعلاقات الإنسانية : \n'+list[index]['cAhR']),
+                                child: Text(
+                                    'إدارة الصف والعلاقات الإنسانية : \n' +
+                                        list[index]['cAhR']),
                               ),
                               const SizedBox(height: 4),
                               Container(
+                                width: MediaQuery.of(context).size.width,
                                 decoration: BoxDecoration(
                                   border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                child: Text('مجال التخطيط :\n'+list[index]['planningField']),
+                                child: Text('مجال التخطيط :\n' +
+                                    list[index]['planningField']),
                               ),
                               const SizedBox(height: 4),
                               Container(
+                                width: MediaQuery.of(context).size.width,
                                 decoration: BoxDecoration(
                                   border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                child: Text('المجال العلمي : \n'+list[index]['scientificField']),
+                                child: Text('المجال العلمي : \n' +
+                                    list[index]['scientificField']),
                               ),
                               const SizedBox(height: 4),
                               Container(
+                                width: MediaQuery.of(context).size.width,
                                 decoration: BoxDecoration(
                                   border: Border.all(color: Colors.black),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
-                                child: Text(' المجال التربوي والتقويم : \n'+list[index]['educationalField']),
+                                child: Text(' المجال التربوي والتقويم : \n' +
+                                    list[index]['educationalField']),
                               ),
                               const SizedBox(height: 4),
                             ],

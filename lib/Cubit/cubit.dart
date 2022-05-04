@@ -163,7 +163,6 @@ class Education extends Cubit<Educational> {
     await database!.rawQuery('SELECT * FROM school').then((value) {
       emit(EducationalGetSuccessState());
       value.forEach((element) {
-        print(schools);
         schools.add(element);
       });
     });
@@ -176,7 +175,6 @@ class Education extends Cubit<Educational> {
     await database!.rawQuery('SELECT * FROM teacher').then((value) {
       emit(EducationalGetSuccessState());
       value.forEach((element) {
-        print(element);
         teachers.add(element);
       });
     });
@@ -208,6 +206,7 @@ class Education extends Cubit<Educational> {
 
   List<Map<dynamic, dynamic>> search = [];
   List<Map<dynamic, dynamic>> searchTeachers = [];
+
   //(name, phone ,class ,division ,date ,titleOfLesson ,item ,planning ,execution ,calender ,cAhR ,planningField,scientificField ,educationalField,idSchool )
   void searchInTableSchool(String text) async {
     search.clear();
@@ -226,6 +225,7 @@ class Education extends Cubit<Educational> {
       },
     );
   }
+
   void searchInTableTeacher(String text) async {
     search.clear();
     database!
@@ -253,11 +253,12 @@ class Education extends Cubit<Educational> {
     required String manager,
     required String managerPhone,
     required String stage,
+    required String type,
     required int idSchool,
   }) {
     database?.rawUpdate(
-      'UPDATE school SET name = ?,address = ? ,phone = ? ,manager = ? , managerPhone = ?,stage = ? WHERE idSchool = ?',
-      [name, address, phone, manager, managerPhone, stage, idSchool],
+      'UPDATE school SET name = ?,address = ? ,phone = ? ,manager = ? , managerPhone = ?,stage = ?,type = ? WHERE idSchool = ?',
+      [name, address, phone, manager, managerPhone, stage, type, idSchool],
     ).then((value) {
       emit(EducationalUpdateSuccessState());
       getDataFromDatabase(database);
@@ -363,12 +364,12 @@ class Education extends Cubit<Educational> {
       "4- يحدد استراتيجيات التدريس والأنشطة المناسبة لتنمية مهارات التعلم";
   String s5 = "5- يحدد الوسائط المتعددة والبدائل التعليمية المناسبة";
   String s6 = "6- يخطط لاساليب التقويم بمراحله المختلفة";
-  String mark1 = "0";
-  String mark2 = "0";
-  String mark3 = "0";
-  String mark4 = "0";
-  String mark5 = "0";
-  String mark6 = "0";
+  String mark1 = '';
+  String mark2 = '';
+  String mark3 = '';
+  String mark4 = '';
+  String mark5 = '';
+  String mark6 = '';
 
   String executions1 = "1- يستثير دافعية المتعلمين نحو التعلم";
   String executions2 = "2- يطبق الأنشطة التعليمية التي تنمي كفايات المواطن.";
@@ -378,22 +379,22 @@ class Education extends Cubit<Educational> {
   String executions5 = "5- يظهر تمكناً من المادة العلمية التي يقدمها.";
   String executions6 = "6- يربط المادة العلمية بالواقع والحياة والعمل.";
 
-  String markExecution1 = "0";
-  String markExecution2 = "0";
-  String markExecution3 = "0";
-  String markExecution4 = "0";
-  String markExecution5 = "0";
-  String markExecution6 = "0";
+  String markExecution1 = '';
+  String markExecution2 = '';
+  String markExecution3 = '';
+  String markExecution4 = '';
+  String markExecution5 = '';
+  String markExecution6 = '';
 
   String calender1 = " 1- يغطي التقويم أهداف الدرس جميعها";
   String calender2 = "2- ينوع أساليب وأدوات التقويم.";
   String calender3 = "3- يوظف نتائج التقويم في تحسين أداء المتعلمين";
   String calender4 = "4- يختار الشكل المناسب لغلق الدرس";
 
-  String markCalender1 = "0";
-  String markCalender2 = "0";
-  String markCalender3 = "0";
-  String markCalender4 = "0";
+  String markCalender1 = '';
+  String markCalender2 = '';
+  String markCalender3 = '';
+  String markCalender4 = '';
 
   String cAhR1 = "1- يهيئ بيئة صفية مادية ونفسية آمنة";
   String cAhR2 = "2- يستعمل مهارات التواصل المناسبة مع المتعلمين";
@@ -409,15 +410,15 @@ class Education extends Cubit<Educational> {
   String cAhr9 =
       "9- يتعامل بديمقراطية وإنسانية مع المتعلمين بما ينمي الشخصية المتكاملة";
 
-  String markCaHr1 = "0";
-  String markCaHr2 = "0";
-  String markCaHr3 = "0";
-  String markCaHr4 = "0";
-  String markCaHr5 = "0";
-  String markCaHr6 = "0";
-  String markCaHr7 = "0";
-  String markCaHr8 = "0";
-  String markCaHr9 = "0";
+  String markCaHr1 = '';
+  String markCaHr2 = '';
+  String markCaHr3 = '';
+  String markCaHr4 = '';
+  String markCaHr5 = '';
+  String markCaHr6 = '';
+  String markCaHr7 = '';
+  String markCaHr8 = '';
+  String markCaHr9 = '';
 
   String planningField1 =
       "1- يشارك مع مجلس المادة في المدرسة في وضع خطة سنوية لتنفيذ المنهاج بعناصره الأساسية.";
@@ -426,9 +427,9 @@ class Education extends Cubit<Educational> {
   String planningField3 =
       "3- يقوم خططه ويعادلها وفقاً للمستجدات والظروف واحتياجات المتعلمين.";
 
-  String markPlanningField1 = "0";
-  String markPlanningField2 = "0";
-  String markPlanningField3 = "0";
+  String markPlanningField1 = '';
+  String markPlanningField2 = '';
+  String markPlanningField3 = '';
 
   String scientificField1 =
       "1- يقدم ملاحظات علمية ونقدية حول المنهاج للمشرف أو للقائمين على تطوير المناهج";
@@ -437,9 +438,9 @@ class Education extends Cubit<Educational> {
   String scientificField3 =
       "3- يواكب المستجدات العلمية (أبحاث - ورشات عمل وجاهية أو افتراضية)";
 
-  String markScientificField1 = "0";
-  String markScientificField2 = "0";
-  String markScientificField3 = "0";
+  String markScientificField1 = '';
+  String markScientificField2 = '';
+  String markScientificField3 = '';
 
   String education1 =
       "1- ينفذ الأنشطة اللاصفية التي تنمي الكفايات الأساسية للمواطن وتتضمن مهارات التواصل";
@@ -457,15 +458,15 @@ class Education extends Cubit<Educational> {
   String education9 =
       "9- يقدم تغذية راجعة مستمرة للمتعلمين تؤثر ايجابياً في تحصيلهم.";
 
-  String markEducationField1 = "0";
-  String markEducationField2 = "0";
-  String markEducationField3 = "0";
-  String markEducationField4 = "0";
-  String markEducationField5 = "0";
-  String markEducationField6 = "0";
-  String markEducationField7 = "0";
-  String markEducationField8 = "0";
-  String markEducationField9 = "0";
+  String markEducationField1 = '';
+  String markEducationField2 = '';
+  String markEducationField3 = '';
+  String markEducationField4 = '';
+  String markEducationField5 = '';
+  String markEducationField6 = '';
+  String markEducationField7 = '';
+  String markEducationField8 = '';
+  String markEducationField9 = '';
 
   String? name;
   String? phone;
@@ -604,6 +605,7 @@ class Education extends Cubit<Educational> {
         markScientificField3 +
         "\n";
   }
+
   var itemController = TextEditingController();
   var nameController = TextEditingController();
   var phoneController = TextEditingController();
@@ -611,4 +613,69 @@ class Education extends Cubit<Educational> {
   var divisionController = TextEditingController();
   var dateController = TextEditingController();
   var titleOfLessonController = TextEditingController();
+  var itemsController = TextEditingController();
+
+  var nameEditSchoolController = TextEditingController();
+  var phoneEditSchoolController = TextEditingController();
+  var addressEditSchoolController = TextEditingController();
+  var managerEditSchoolController = TextEditingController();
+  var stageEditSchoolController = TextEditingController();
+  var typeEditSchoolController = TextEditingController();
+  var managerPhoneEditSchoolController = TextEditingController();
+
+  String gover = 'اختر المحافظة';
+  String type = 'اختر النوع';
+  String editType = 'اختر النوع';
+  String editStage = 'اختر المرحلة';
+  String stageType = 'اختر المرحلة';
+
+  var nameSchoolController = TextEditingController();
+  var addressController = TextEditingController();
+  var phoneSchoolController = TextEditingController();
+  var managerController = TextEditingController();
+  var managerPhoneController = TextEditingController();
+  var typeController = TextEditingController();
+
+  changeBoolean(bool l, bool v) {
+    l = v;
+    emit(EducationalChangeVarState());
+    return l;
+  }
+
+  changeStringV(String l, String v) {
+    l = v;
+    emit(EducationalChangeVarState());
+    return l;
+  }
+
+  List<String> government = [
+    'دمشق',
+    'ريف دمشق',
+    'القنيطرة',
+    'درعا',
+    'السويداء',
+    'حمص',
+    'حماة',
+    'طرطوس',
+    'اللاذقية',
+    'ادلب',
+    'حلب',
+    'الرقة',
+    'دير الزور',
+    'الحسكة',
+  ];
+  List<String> stage = [
+    'اساسي',
+    'اعدادي',
+    'ثانوي',
+    'اساسي + ثانوي',
+    'مهني',
+    'نسوي',
+    'تجاري',
+  ];
+  List<String> types = [
+    'مختلطة',
+    'ذكور فقط',
+    'اناث فقط',
+  ];
 }

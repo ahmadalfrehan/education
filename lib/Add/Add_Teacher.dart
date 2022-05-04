@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:education_evaluation/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../Cubit/cubit.dart';
@@ -9,18 +10,20 @@ import '../main.dart';
 class AddTeacher extends StatelessWidget {
   final int index;
   final List list;
+
   AddTeacher(this.index, this.list, {Key? key}) : super(key: key);
   var far = GlobalKey<FormState>();
   double heights = 40;
   double widths = 350;
   int idSchool = 0;
-  Widget text(String t){
-    return CircleAvatar(child:Text(t),
-      backgroundColor:
-      const Color(
-          0xFF0b4972),
+
+  Widget text(String t) {
+    return CircleAvatar(
+      child: Text(t),
+      backgroundColor: const Color(0xFF0b4972),
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<Education, Educational>(
@@ -33,11 +36,12 @@ class AddTeacher extends StatelessWidget {
           );
           Timer(
             const Duration(seconds: 1),
-                () => Navigator.pushReplacement(
+            () => Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomeLayout(),
+                builder: (context) => HomeLayout(),
               ),
+              (route) => false,
             ),
           );
           main();
@@ -55,12 +59,19 @@ class AddTeacher extends StatelessWidget {
         var E = Education.get(context);
         idSchool = list[index]['idSchool'];
         E.phoneController.text = list[index]['name'];
+        E.itemController.text = item;
         return Scaffold(
           appBar: AppBar(
             backgroundColor: const Color(0xFF0b4972),
             elevation: 0,
-              centerTitle:true,
-              title:const Text('Add Teacher',style:TextStyle(color:Colors.white,fontSize:20,))
+            centerTitle: true,
+            title: const Text(
+              'Add Teacher',
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 20,
+              ),
+            ),
           ),
           backgroundColor: const Color(0xFFECF0F3),
           body: Stack(
@@ -78,33 +89,40 @@ class AddTeacher extends StatelessWidget {
                         children: [
                           Container(
                             color: Colors.white,
-                            child: Column(
-                              children: [
-                                TextFormF("الاسم", Icons.person,
-                                    E.nameController, E),
-                                TextFormF("الصف", Icons.person,
-                                    E.classController, E),
-                                TextFormF("الشعبة", Icons.info_outline,
-                                    E.divisionController, E),
-                                TextFormF("اسم المدرسة", Icons.phone,
-                                    E.phoneController, E),
-                                TextFormF("التاريخ", Icons.price_check,
-                                    E.dateController, E),
-                                TextFormF("عنوان الدرس", Icons.price_check,
-                                    E.titleOfLessonController, E),
-                                TextFormF("المادة", Icons.price_change,
-                                    E.itemController, E),
-                              ],
+                            child: Form(
+                              key:far,
+                              child: Column(
+                                children: [
+                                  TextFormF("الاسم", Icons.person, E.nameController, E),
+                                  TextFormF("اسم المدرسة", Icons.phone, E.phoneController, E),
+                                  TextFormF("الصف", Icons.person, E.classController, E),
+                                  TextFormF("الشعبة", Icons.info_outline, E.divisionController, E),
+                                  TextFormF("المادة", Icons.price_change, E.itemController, E),
+                                  TextFormF("عنوان الدرس", Icons.price_check, E.titleOfLessonController, E),
+                                  TextFormF("التاريخ", Icons.price_check, E.dateController, E),
+                                ],
+                              ),
                             ),
                           ),
                           Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const SizedBox(height: 20),
-                              const Divider(
-                                  color: Colors.black, thickness: 1),
-                              const Text('التخطيط :',style:const TextStyle(fontWeight:FontWeight.w600,fontSize:18)),
+                              const Divider(color: Colors.black, thickness: 1),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Text(
+                                    'التخطيط :',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ],
+                              ),
                               const SizedBox(height: 10),
-                              Text(E.s1+'\t' + E.mark1.toString()),
+                              Text(E.s1 + '\t' + E.mark1.toString()),
                               const SizedBox(height: 10),
                               Row(
                                 children: [
@@ -156,7 +174,7 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.s2+'\t' + E.mark2.toString()),
+                              Text(E.s2 + '\t' + E.mark2.toString()),
                               const SizedBox(height: 10),
                               Row(
                                 children: [
@@ -208,7 +226,7 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.s3+'\t' + E.mark3.toString()),
+                              Text(E.s3 + '\t' + E.mark3.toString()),
                               const SizedBox(height: 10),
                               Row(
                                 children: [
@@ -260,7 +278,7 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.s4+'\t' + E.mark4.toString()),
+                              Text(E.s4 + '\t' + E.mark4.toString()),
                               const SizedBox(height: 10),
                               Row(
                                 children: [
@@ -312,7 +330,7 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.s5+'\t' + E.mark5.toString()),
+                              Text(E.s5 + '\t' + E.mark5.toString()),
                               const SizedBox(height: 10),
                               Row(
                                 children: [
@@ -364,7 +382,7 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.s6+'\t' + E.mark6.toString()),
+                              Text(E.s6 + '\t' + E.mark6.toString()),
                               const SizedBox(height: 10),
                               Row(
                                 children: [
@@ -416,12 +434,21 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              const Divider(
-                                  color: Colors.black, thickness: 1),
+                              const Divider(color: Colors.black, thickness: 1),
                               const SizedBox(height: 10),
-                              const Text('التنفيذ (طرائق التدريس والتمكن من المادة) :',style:const TextStyle(fontWeight:FontWeight.w600,fontSize:18)),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Text(
+                                      'التنفيذ (طرائق التدريس والتمكن من المادة) :',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18)),
+                                ],
+                              ),
                               const SizedBox(height: 10),
-                              Text(E.executions1 +'\t'+
+                              Text(E.executions1 +
+                                  '\t' +
                                   E.markExecution1.toString()),
                               const SizedBox(height: 10),
                               Row(
@@ -474,7 +501,8 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.executions2 +'\t'+
+                              Text(E.executions2 +
+                                  '\t' +
                                   E.markExecution2.toString()),
                               const SizedBox(height: 10),
                               Row(
@@ -527,7 +555,8 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.executions3 +'\t'+
+                              Text(E.executions3 +
+                                  '\t' +
                                   E.markExecution3.toString()),
                               const SizedBox(height: 10),
                               Row(
@@ -580,7 +609,8 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.executions4 +'\t'+
+                              Text(E.executions4 +
+                                  '\t' +
                                   E.markExecution4.toString()),
                               const SizedBox(height: 10),
                               Row(
@@ -633,7 +663,8 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.executions5 +'\t'+
+                              Text(E.executions5 +
+                                  '\t' +
                                   E.markExecution5.toString()),
                               const SizedBox(height: 10),
                               Row(
@@ -686,7 +717,8 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.executions6 +'\t'+
+                              Text(E.executions6 +
+                                  '\t' +
                                   E.markExecution6.toString()),
                               Row(
                                 children: [
@@ -737,11 +769,23 @@ class AddTeacher extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              const Divider(
-                                  color: Colors.black, thickness: 1),
-                              const Text('التقويم البنائي والنهائي والغلق :',style:const TextStyle(fontWeight:FontWeight.w600,fontSize:18)),
+                              const Divider(color: Colors.black, thickness: 1),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Text(
+                                    'التقويم البنائي والنهائي والغلق :',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                ],
+                              ),
                               const SizedBox(height: 10),
-                              Text(E.calender1 +'\t'+ E.markCalender1.toString()),
+                              Text(E.calender1 +
+                                  '\t' +
+                                  E.markCalender1.toString()),
                               const SizedBox(height: 10),
                               Row(
                                 children: [
@@ -795,7 +839,9 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.calender2 +'\t'+ E.markCalender2.toString()),
+                              Text(E.calender2 +
+                                  '\t' +
+                                  E.markCalender2.toString()),
                               const SizedBox(height: 10),
                               Row(
                                 children: [
@@ -847,7 +893,9 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.calender3 +'\t'+ E.markCalender3.toString()),
+                              Text(E.calender3 +
+                                  '\t' +
+                                  E.markCalender3.toString()),
                               const SizedBox(height: 10),
                               Row(
                                 children: [
@@ -899,7 +947,9 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.calender4 +'\t'+ E.markCalender4.toString()),
+                              Text(E.calender4 +
+                                  '\t' +
+                                  E.markCalender4.toString()),
                               Row(
                                 children: [
                                   Expanded(
@@ -949,12 +999,19 @@ class AddTeacher extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              const Divider(
-                                  color: Colors.black, thickness: 1),
-                              const Text('إدارة الصف والعلاقات الإنسانية ',style:TextStyle(fontWeight:FontWeight.w600,fontSize:18)),
+                              const Divider(color: Colors.black, thickness: 1),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Text('إدارة الصف والعلاقات الإنسانية ',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18)),
+                                ],
+                              ),
                               const SizedBox(height: 10),
                               Text(
-                                E.cAhR1 +'\t'+ E.markCaHr1.toString(),
+                                E.cAhR1 + '\t' + E.markCaHr1.toString(),
                               ),
                               const SizedBox(height: 10),
                               Row(
@@ -965,7 +1022,7 @@ class AddTeacher extends StatelessWidget {
                                         E.markCaHr1 = E.ChangeStingVar(
                                             E.markCaHr1.toString(), '1');
                                       },
-                                      child:  text('1'),
+                                      child: text('1'),
                                     ),
                                   ),
                                   Expanded(
@@ -974,7 +1031,7 @@ class AddTeacher extends StatelessWidget {
                                         E.markCaHr1 = E.ChangeStingVar(
                                             E.markCaHr1.toString(), '2');
                                       },
-                                      child:  text('2'),
+                                      child: text('2'),
                                     ),
                                   ),
                                   Expanded(
@@ -1007,7 +1064,7 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.cAhR2 +'\t'+ E.markCaHr2.toString()),
+                              Text(E.cAhR2 + '\t' + E.markCaHr2.toString()),
                               const SizedBox(height: 10),
                               Row(
                                 children: [
@@ -1059,7 +1116,7 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.cAhR3 +'\t'+ E.markCaHr3.toString()),
+                              Text(E.cAhR3 + '\t' + E.markCaHr3.toString()),
                               const SizedBox(height: 10),
                               Row(
                                 children: [
@@ -1111,7 +1168,7 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.cAhr4 +'\t'+ E.markCaHr4.toString()),
+                              Text(E.cAhr4 + '\t' + E.markCaHr4.toString()),
                               const SizedBox(height: 10),
                               Row(
                                 children: [
@@ -1215,7 +1272,7 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.cAhr6 +'\t'+ E.markCaHr6.toString()),
+                              Text(E.cAhr6 + '\t' + E.markCaHr6.toString()),
                               const SizedBox(height: 10),
                               Row(
                                 children: [
@@ -1267,7 +1324,7 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.cAhr7+'\t' + E.markCaHr7.toString()),
+                              Text(E.cAhr7 + '\t' + E.markCaHr7.toString()),
                               const SizedBox(height: 10),
                               Row(
                                 children: [
@@ -1319,7 +1376,7 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.cAhr8+'\t' + E.markCaHr8.toString()),
+                              Text(E.cAhr8 + '\t' + E.markCaHr8.toString()),
                               const SizedBox(height: 10),
                               Row(
                                 children: [
@@ -1371,7 +1428,7 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.cAhr9+'\t' + E.markCaHr9.toString()),
+                              Text(E.cAhr9 + '\t' + E.markCaHr9.toString()),
                               const SizedBox(height: 10),
                               Row(
                                 children: [
@@ -1423,12 +1480,20 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              const Divider(
-                                  color: Colors.black, thickness: 1),
+                              const Divider(color: Colors.black, thickness: 1),
                               const SizedBox(height: 10),
-                              const Text('مجال التخطيط :',style:const TextStyle(fontWeight:FontWeight.w600,fontSize:18)),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Text('مجال التخطيط :',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18)),
+                                ],
+                              ),
                               const SizedBox(height: 10),
-                              Text(E.planningField1 +'\t'+
+                              Text(E.planningField1 +
+                                  '\t' +
                                   E.markPlanningField1.toString()),
                               const SizedBox(height: 10),
                               Row(
@@ -1436,11 +1501,9 @@ class AddTeacher extends StatelessWidget {
                                   Expanded(
                                     child: MaterialButton(
                                       onPressed: () {
-                                        E.markPlanningField1 =
-                                            E.ChangeStingVar(
-                                                E.markPlanningField1
-                                                    .toString(),
-                                                '1');
+                                        E.markPlanningField1 = E.ChangeStingVar(
+                                            E.markPlanningField1.toString(),
+                                            '1');
                                       },
                                       child: text('1'),
                                     ),
@@ -1448,11 +1511,9 @@ class AddTeacher extends StatelessWidget {
                                   Expanded(
                                     child: MaterialButton(
                                       onPressed: () {
-                                        E.markPlanningField1 =
-                                            E.ChangeStingVar(
-                                                E.markPlanningField1
-                                                    .toString(),
-                                                '2');
+                                        E.markPlanningField1 = E.ChangeStingVar(
+                                            E.markPlanningField1.toString(),
+                                            '2');
                                       },
                                       child: text('2'),
                                     ),
@@ -1460,11 +1521,9 @@ class AddTeacher extends StatelessWidget {
                                   Expanded(
                                     child: MaterialButton(
                                       onPressed: () {
-                                        E.markPlanningField1 =
-                                            E.ChangeStingVar(
-                                                E.markPlanningField1
-                                                    .toString(),
-                                                '3');
+                                        E.markPlanningField1 = E.ChangeStingVar(
+                                            E.markPlanningField1.toString(),
+                                            '3');
                                       },
                                       child: text('3'),
                                     ),
@@ -1472,11 +1531,9 @@ class AddTeacher extends StatelessWidget {
                                   Expanded(
                                     child: MaterialButton(
                                       onPressed: () {
-                                        E.markPlanningField1 =
-                                            E.ChangeStingVar(
-                                                E.markPlanningField1
-                                                    .toString(),
-                                                '4');
+                                        E.markPlanningField1 = E.ChangeStingVar(
+                                            E.markPlanningField1.toString(),
+                                            '4');
                                       },
                                       child: text('4'),
                                     ),
@@ -1484,11 +1541,9 @@ class AddTeacher extends StatelessWidget {
                                   Expanded(
                                     child: MaterialButton(
                                       onPressed: () {
-                                        E.markPlanningField1 =
-                                            E.ChangeStingVar(
-                                                E.markPlanningField1
-                                                    .toString(),
-                                                '5');
+                                        E.markPlanningField1 = E.ChangeStingVar(
+                                            E.markPlanningField1.toString(),
+                                            '5');
                                       },
                                       child: text('5'),
                                     ),
@@ -1496,7 +1551,8 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.planningField2 +'\t'+
+                              Text(E.planningField2 +
+                                  '\t' +
                                   E.markPlanningField2.toString()),
                               const SizedBox(height: 10),
                               Row(
@@ -1504,11 +1560,9 @@ class AddTeacher extends StatelessWidget {
                                   Expanded(
                                     child: MaterialButton(
                                       onPressed: () {
-                                        E.markPlanningField2 =
-                                            E.ChangeStingVar(
-                                                E.markPlanningField2
-                                                    .toString(),
-                                                '1');
+                                        E.markPlanningField2 = E.ChangeStingVar(
+                                            E.markPlanningField2.toString(),
+                                            '1');
                                       },
                                       child: text('1'),
                                     ),
@@ -1516,11 +1570,9 @@ class AddTeacher extends StatelessWidget {
                                   Expanded(
                                     child: MaterialButton(
                                       onPressed: () {
-                                        E.markPlanningField2 =
-                                            E.ChangeStingVar(
-                                                E.markPlanningField2
-                                                    .toString(),
-                                                '2');
+                                        E.markPlanningField2 = E.ChangeStingVar(
+                                            E.markPlanningField2.toString(),
+                                            '2');
                                       },
                                       child: text('2'),
                                     ),
@@ -1528,11 +1580,9 @@ class AddTeacher extends StatelessWidget {
                                   Expanded(
                                     child: MaterialButton(
                                       onPressed: () {
-                                        E.markPlanningField2 =
-                                            E.ChangeStingVar(
-                                                E.markPlanningField2
-                                                    .toString(),
-                                                '3');
+                                        E.markPlanningField2 = E.ChangeStingVar(
+                                            E.markPlanningField2.toString(),
+                                            '3');
                                       },
                                       child: text('3'),
                                     ),
@@ -1540,11 +1590,9 @@ class AddTeacher extends StatelessWidget {
                                   Expanded(
                                     child: MaterialButton(
                                       onPressed: () {
-                                        E.markPlanningField2 =
-                                            E.ChangeStingVar(
-                                                E.markPlanningField2
-                                                    .toString(),
-                                                '4');
+                                        E.markPlanningField2 = E.ChangeStingVar(
+                                            E.markPlanningField2.toString(),
+                                            '4');
                                       },
                                       child: text('4'),
                                     ),
@@ -1552,11 +1600,9 @@ class AddTeacher extends StatelessWidget {
                                   Expanded(
                                     child: MaterialButton(
                                       onPressed: () {
-                                        E.markPlanningField2 =
-                                            E.ChangeStingVar(
-                                                E.markPlanningField2
-                                                    .toString(),
-                                                '5');
+                                        E.markPlanningField2 = E.ChangeStingVar(
+                                            E.markPlanningField2.toString(),
+                                            '5');
                                       },
                                       child: text('5'),
                                     ),
@@ -1564,7 +1610,8 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.planningField3 +'\t'+
+                              Text(E.planningField3 +
+                                  '\t' +
                                   E.markPlanningField3.toString()),
                               const SizedBox(height: 10),
                               Row(
@@ -1572,11 +1619,9 @@ class AddTeacher extends StatelessWidget {
                                   Expanded(
                                     child: MaterialButton(
                                       onPressed: () {
-                                        E.markPlanningField3 =
-                                            E.ChangeStingVar(
-                                                E.markPlanningField3
-                                                    .toString(),
-                                                '1');
+                                        E.markPlanningField3 = E.ChangeStingVar(
+                                            E.markPlanningField3.toString(),
+                                            '1');
                                       },
                                       child: text('1'),
                                     ),
@@ -1584,11 +1629,9 @@ class AddTeacher extends StatelessWidget {
                                   Expanded(
                                     child: MaterialButton(
                                       onPressed: () {
-                                        E.markPlanningField3 =
-                                            E.ChangeStingVar(
-                                                E.markPlanningField3
-                                                    .toString(),
-                                                '2');
+                                        E.markPlanningField3 = E.ChangeStingVar(
+                                            E.markPlanningField3.toString(),
+                                            '2');
                                       },
                                       child: text('2'),
                                     ),
@@ -1596,11 +1639,9 @@ class AddTeacher extends StatelessWidget {
                                   Expanded(
                                     child: MaterialButton(
                                       onPressed: () {
-                                        E.markPlanningField3 =
-                                            E.ChangeStingVar(
-                                                E.markPlanningField3
-                                                    .toString(),
-                                                '3');
+                                        E.markPlanningField3 = E.ChangeStingVar(
+                                            E.markPlanningField3.toString(),
+                                            '3');
                                       },
                                       child: text('3'),
                                     ),
@@ -1608,11 +1649,9 @@ class AddTeacher extends StatelessWidget {
                                   Expanded(
                                     child: MaterialButton(
                                       onPressed: () {
-                                        E.markPlanningField3 =
-                                            E.ChangeStingVar(
-                                                E.markPlanningField3
-                                                    .toString(),
-                                                '4');
+                                        E.markPlanningField3 = E.ChangeStingVar(
+                                            E.markPlanningField3.toString(),
+                                            '4');
                                       },
                                       child: text('4'),
                                     ),
@@ -1620,11 +1659,9 @@ class AddTeacher extends StatelessWidget {
                                   Expanded(
                                     child: MaterialButton(
                                       onPressed: () {
-                                        E.markPlanningField3 =
-                                            E.ChangeStingVar(
-                                                E.markPlanningField3
-                                                    .toString(),
-                                                '5');
+                                        E.markPlanningField3 = E.ChangeStingVar(
+                                            E.markPlanningField3.toString(),
+                                            '5');
                                       },
                                       child: text('5'),
                                     ),
@@ -1633,12 +1670,20 @@ class AddTeacher extends StatelessWidget {
                               ),
                               const SizedBox(height: 10),
                               const SizedBox(height: 10),
-                              const Divider(
-                                  color: Colors.black, thickness: 1),
+                              const Divider(color: Colors.black, thickness: 1),
                               const SizedBox(height: 10),
-                              const Text('المجال العلمي : ',style:TextStyle(fontWeight:FontWeight.w600,fontSize:18)),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Text('المجال العلمي : ',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18)),
+                                ],
+                              ),
                               const SizedBox(height: 10),
-                              Text(E.scientificField1 +'\t'+
+                              Text(E.scientificField1 +
+                                  '\t' +
                                   E.markScientificField1.toString()),
                               const SizedBox(height: 10),
                               Row(
@@ -1707,7 +1752,8 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.scientificField2 +'\t'+
+                              Text(E.scientificField2 +
+                                  '\t' +
                                   E.markScientificField2.toString()),
                               const SizedBox(height: 10),
                               Row(
@@ -1775,7 +1821,8 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.scientificField3 +'\t'+
+                              Text(E.scientificField3 +
+                                  '\t' +
                                   E.markScientificField3.toString()),
                               const SizedBox(height: 10),
                               Row(
@@ -1844,9 +1891,18 @@ class AddTeacher extends StatelessWidget {
                               ),
                               const SizedBox(height: 10),
                               const Divider(color: Colors.black, thickness: 1),
-                              const Text('المجال التربوي والتقويم :',style:TextStyle(fontWeight:FontWeight.w600,fontSize:18)),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Text('المجال التربوي والتقويم :',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 18)),
+                                ],
+                              ),
                               const SizedBox(height: 10),
-                              Text(E.education1 +'\t'+
+                              Text(E.education1 +
+                                  '\t' +
                                   E.markEducationField1.toString()),
                               const SizedBox(height: 10),
                               Row(
@@ -1914,7 +1970,8 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.education2 +'\t'+
+                              Text(E.education2 +
+                                  '\t' +
                                   E.markEducationField2.toString()),
                               const SizedBox(height: 10),
                               Row(
@@ -1982,7 +2039,8 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.education3 +'\t'+
+                              Text(E.education3 +
+                                  '\t' +
                                   E.markEducationField3.toString()),
                               const SizedBox(height: 10),
                               Row(
@@ -2050,7 +2108,8 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.education4 +'\t'+
+                              Text(E.education4 +
+                                  '\t' +
                                   E.markEducationField4.toString()),
                               const SizedBox(height: 10),
                               Row(
@@ -2118,7 +2177,8 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.education5 +'\t'+
+                              Text(E.education5 +
+                                  '\t' +
                                   E.markEducationField5.toString()),
                               const SizedBox(height: 10),
                               Row(
@@ -2186,7 +2246,8 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.education6 +'\t'+
+                              Text(E.education6 +
+                                  '\t' +
                                   E.markEducationField6.toString()),
                               const SizedBox(height: 10),
                               Row(
@@ -2254,7 +2315,8 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.education7 +'\t'+
+                              Text(E.education7 +
+                                  '\t' +
                                   E.markEducationField7.toString()),
                               const SizedBox(height: 10),
                               Row(
@@ -2322,7 +2384,8 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.education8 +'\t'+
+                              Text(E.education8 +
+                                  '\t' +
                                   E.markEducationField8.toString()),
                               const SizedBox(height: 10),
                               Row(
@@ -2390,7 +2453,8 @@ class AddTeacher extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 10),
-                              Text(E.education9 +'\t'+
+                              Text(E.education9 +
+                                  '\t' +
                                   E.markEducationField9.toString()),
                               Row(
                                 children: [
@@ -2456,11 +2520,9 @@ class AddTeacher extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              const Divider(
-                                  color: Colors.black, thickness: 1),
+                              const Divider(color: Colors.black, thickness: 1),
                             ],
                           ),
-
                           Row(
                             children: [
                               Expanded(
@@ -2469,36 +2531,130 @@ class AddTeacher extends StatelessWidget {
                                   child: MaterialButton(
                                     elevation: 20,
                                     onPressed: () {
-                                      E.saveAndInitialiseVariables();
-                                      E.insertInToTeacherTableDataBase(
-                                        name: E.nameController.text,
-                                        phone: E.phoneController.text,
-                                        clas: E.classController.text,
-                                        date: E.dateController.text,
-                                        division: E.divisionController.text,
-                                        item: E.itemController.text,
-                                        titleOfLesson:
-                                            E.titleOfLessonController.text,
-                                        cAhR: E.cAhR.toString(),
-                                        calender: E.calender.toString(),
-                                        educationalField:
-                                            E.educationField.toString(),
-                                        execution: E.execution.toString(),
-                                        planning: E.planning.toString(),
-                                        planningField:
-                                            E.planningField.toString(),
-                                        scientificField:
-                                            E.scientificField.toString(),
-                                        idSchool: idSchool,
+                                      if(far.currentState!.validate()){
+                                      var e = AlertDialog(
+                                        scrollable: true,
+                                        actions: [
+                                          MaterialButton(
+                                              color: const Color(0xFF0b4972),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                              child: const Text('cancel',
+                                                  style: TextStyle(
+                                                      color: Colors.white,),),),
+                                        ],
+                                        title: const Text('ماذا تريد ان تفعل ؟ :',
+                                            textDirection: TextDirection.rtl),
+                                        shape: BeveledRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(15),
+                                        ),
+                                        content: Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height /
+                                              4,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.7,
+                                          child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                Divider(),
+                                                MaterialButton(
+                                                  onPressed: () {
+                                                    E.saveAndInitialiseVariables();
+                                                    E.insertInToTeacherTableDataBase(
+                                                      name:
+                                                          E.nameController.text,
+                                                      phone: E
+                                                          .phoneController.text,
+                                                      clas: E
+                                                          .classController.text,
+                                                      date:
+                                                          E.dateController.text,
+                                                      division: E
+                                                          .divisionController
+                                                          .text,
+                                                      item:
+                                                          E.itemController.text,
+                                                      titleOfLesson: E
+                                                          .titleOfLessonController
+                                                          .text,
+                                                      cAhR: E.cAhR.toString(),
+                                                      calender:
+                                                          E.calender.toString(),
+                                                      educationalField: E
+                                                          .educationField
+                                                          .toString(),
+                                                      execution: E.execution
+                                                          .toString(),
+                                                      planning:
+                                                          E.planning.toString(),
+                                                      planningField: E
+                                                          .planningField
+                                                          .toString(),
+                                                      scientificField: E
+                                                          .scientificField
+                                                          .toString(),
+                                                      idSchool: idSchool,
+                                                    );
+                                                    E.nameController =
+                                                        TextEditingController();
+                                                    E.phoneController =
+                                                        TextEditingController();
+                                                    E.classController =
+                                                        TextEditingController();
+                                                    E.dateController =
+                                                        TextEditingController();
+                                                    E.divisionController =
+                                                        TextEditingController();
+                                                    E.itemController =
+                                                        TextEditingController();
+                                                    E.titleOfLessonController =
+                                                        TextEditingController();
+                                                  },
+                                                  child: const Text(
+                                                    'هل تريد الحفظ ؟',
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                  minWidth:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.7,
+                                                  color:
+                                                      const Color(0xFF0b4972),
+                                                ),
+                                                Divider(),
+                                                MaterialButton(
+                                                  minWidth:
+                                                      MediaQuery.of(context)
+                                                              .size
+                                                              .width *
+                                                          0.7,
+                                                  onPressed: () {},
+                                                  child: const Text(
+                                                    'هل تريد الحفظ والارسال ؟',
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                    ),
+                                                  ),
+                                                  color:
+                                                      const Color(0xFF0b4972),
+                                                ),
+                                              ]),
+                                        ),
                                       );
-                                      E.nameController=TextEditingController();
-                                      E.phoneController=TextEditingController();
-                                      E.classController=TextEditingController();
-                                      E.dateController=TextEditingController();
-                                      E.divisionController=TextEditingController();
-                                      E.itemController=TextEditingController();
-                                      E.titleOfLessonController=TextEditingController();
-                                    },
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) => e);
+                                    }},
                                     child: const Text(
                                       'Save',
                                       style: TextStyle(
@@ -2541,11 +2697,7 @@ class AddTeacher extends StatelessWidget {
           filled: true,
           labelText: lab,
         ),
-        maxLines: lab == 'Information' ? 14 : 1,
-        minLines: 1,
         controller: x,
-        keyboardType:
-            lab == 'Information' ? TextInputType.multiline : TextInputType.text,
         validator: (String? value) {
           if (value!.isEmpty) {
             return 'the field must not be empty';

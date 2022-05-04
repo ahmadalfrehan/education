@@ -32,11 +32,12 @@ class Details extends StatelessWidget {
           );
           Timer(
             const Duration(seconds: 1),
-            () => Navigator.pushReplacement(
+            () => Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomeLayout(),
+                builder: (context) =>  HomeLayout(),
               ),
+              (route) => false,
             ),
           );
         }
@@ -136,7 +137,7 @@ class Details extends StatelessWidget {
                                   height: 8,
                                 ),
                                 Text(
-                                  'المحافظة او العنوان  : ' +
+                                  ' العنوان  : ' +
                                       list[index]['address'].toString(),
                                   style: TextStyle(
                                     fontSize:
@@ -213,7 +214,7 @@ class Details extends StatelessWidget {
                                               blurRadius: 10,
                                             ),
                                           ],
-                                          color: Color(0xFFECF0F3),
+                                          color: Colors.white,
                                           borderRadius: BorderRadius.all(
                                             Radius.circular(30),
                                           ),

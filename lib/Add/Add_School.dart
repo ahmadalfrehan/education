@@ -1,4 +1,4 @@
-
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 
@@ -6,16 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../Cubit/cubit.dart';
 import '../Cubit/states.dart';
 
-
 class Add_School extends StatelessWidget {
   Add_School({Key? key}) : super(key: key);
-  var nameController = TextEditingController();
-  var addressController = TextEditingController();
-  var phoneController = TextEditingController();
-  var managerController = TextEditingController();
-  var managerPhoneController = TextEditingController();
-  var typeController = TextEditingController();
-  var stageController = TextEditingController();
   var far = GlobalKey<FormState>();
   double heights = 40;
   double widths = 350;
@@ -29,6 +21,10 @@ class Add_School extends StatelessWidget {
             SnackBar(
               content: Text('successfully added the ' + state.num.toString()),
             ),
+          );
+          Timer(
+        const     Duration(seconds: 2),
+            () => Education.get(context).ChangeBottomNav(0),
           );
         }
         if (state is EducationalAddErrorState) {
@@ -44,49 +40,155 @@ class Add_School extends StatelessWidget {
         var c = Education.get(context);
         return Scaffold(
           backgroundColor: const Color(0xFFECF0F3),
-          body: Form(
-            key: far,
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(height: 20),
-                  TextFormF("الاسم", Icons.person, nameController, c),
-                  TextFormF("المحافظة او العنوان ", Icons.person, addressController, c),
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(height: 20),
+                Form(
+                  key: far,
+                  child: Column(
+                    children: [
+                      TextFormF(
+                          "اسم المدرسة", Icons.person, c.nameSchoolController, c),
+                  TextFormF(" العنوان ", Icons.person, c.addressController, c),
                   TextFormF(
-                      "المدير", Icons.info_outline, managerController, c),
-                  TextFormF("الهاتف", Icons.phone, phoneController, c),
-                  TextFormF("معلومات اضافية", Icons.price_change, stageController, c),
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      side: BorderSide(
-                        color: c.Color1,
-                        width: 2,
+                      "المدير", Icons.info_outline, c.managerController, c),
+                  TextFormFNotValidate(
+                      "الهاتف", Icons.phone, c.phoneSchoolController, c),
+                  TextFormFNotValidate(
+                      "هاتف المدير", Icons.phone, c.managerPhoneController, c),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: DropdownButton<String>(
+                          isExpanded: true,
+                          menuMaxHeight:
+                              MediaQuery.of(context).size.height / 2,
+                          alignment: Alignment.center,
+                          elevation: 15,
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(15),
+                          ),
+                          hint: Text(
+                            c.stageType,
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          items: Education.get(context)
+                              .stage
+                              .map((String value) {
+                            return DropdownMenuItem(
+                              value: value,
+                              child: Text(value.toString()),
+                            );
+                          }).toList(),
+                          onChanged: (newValue) async {
+                            String l = '';
+                            c.stageType = Education.get(context)
+                                .changeStringV(l, newValue.toString());
+                          },
+                        ),
                       ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: DropdownButton<String>(
+                          isExpanded: true,
+                          menuMaxHeight:
+                              MediaQuery.of(context).size.height / 2,
+                          alignment: Alignment.center,
+                          elevation: 15,
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(15),
+                          ),
+                          hint: Text(
+                            c.type,
+                            style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600),
+                          ),
+                          items: Education.get(context)
+                              .types
+                              .map((String value) {
+                            return DropdownMenuItem(
+                              value: value,
+                              child: Text(value.toString()),
+                            );
+                          }).toList(),
+                          onChanged: (newValue) async {
+                            String l = '';
+                            c.type = Education.get(context)
+                                .changeStringV(l, newValue.toString());
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(30, 30, 30, 20),
+                  child: MaterialButton(
                       elevation: 0.0,
-                      primary: const Color(0xFF0b4972),
-                      fixedSize: Size(widths, heights),
+                      color: const Color(0xFF0b4972),
+                      minWidth: double.infinity,
                       shape: const StadiumBorder(),
-                    ),
                     onPressed: () {
                       if (far.currentState!.validate()) {
-                        c.insertInToSchoolTableDataBase(
-                          name: nameController.text,
-                          address: addressController.text,
-                          type: 'NotSent',
-                          phone: phoneController.text,
-                          manager: managerController.text,
-                          managerPhone: managerPhoneController.text,
-                          stage: stageController.text,
-                        );
+                        if (!Education.get(context)
+                            .stage
+                            .contains(c.stageType)) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('اختر المرحلة'),
+                            ),
+                          );
+                        }
+                        if (!Education.get(context).types.contains(c.type)) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('اختر النوع'),
+                            ),
+                          );
+                        }
+                        if (Education.get(context)
+                                .stage
+                                .contains(c.stageType) &&
+                            Education.get(context).types.contains(c.type)) {
+                          c.insertInToSchoolTableDataBase(
+                            name: c.nameSchoolController.text,
+                            address: c.addressController.text,
+                            type: c.type,
+                            phone: c.phoneSchoolController.text,
+                            manager: c.managerController.text,
+                            managerPhone: c.managerPhoneController.text,
+                            stage: c.stageType,
+                          );
+                        }
                       }
-                      nameController = TextEditingController();
-                      phoneController = TextEditingController();
-                      addressController = TextEditingController();
-                      managerController = TextEditingController();
-                      managerPhoneController = TextEditingController();
-                      stageController = TextEditingController();
+                      c.nameSchoolController = TextEditingController();
+                      c.phoneSchoolController = TextEditingController();
+                      c.addressController = TextEditingController();
+                      c.managerController = TextEditingController();
+                      c.managerPhoneController = TextEditingController();
+                      c.stageType = 'اختر المرحلة ';
+                      c.type = 'اختر النوع ';
                     },
-                    child:const Text(
+                    child: const Text(
                       ' Save ?',
                       textDirection: TextDirection.ltr,
                       style: TextStyle(
@@ -96,8 +198,8 @@ class Add_School extends StatelessWidget {
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         );
@@ -125,14 +227,42 @@ class Add_School extends StatelessWidget {
         maxLines: lab == 'معلومات اضافية' ? 4 : 1,
         minLines: 1,
         controller: x,
-        keyboardType:
-            lab == 'معلومات اضافية' ? TextInputType.multiline : TextInputType.text,
+        keyboardType: lab == 'معلومات اضافية'
+            ? TextInputType.multiline
+            : TextInputType.text,
         validator: (String? value) {
           if (value!.isEmpty) {
             return 'the field must not be empty';
           }
           return null;
         },
+      ),
+    );
+  }
+
+  Widget TextFormFNotValidate(String lab, IconData Ic, var x, var c) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+      child: TextFormField(
+        decoration: InputDecoration(
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.0),
+            borderSide: BorderSide(color: c.Color1, width: 2.0),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.0),
+            borderSide: BorderSide(color: c.Color1, width: 2.0),
+          ),
+          fillColor: Colors.white,
+          filled: true,
+          labelText: lab,
+        ),
+        maxLines: lab == 'معلومات اضافية' ? 4 : 1,
+        minLines: 1,
+        controller: x,
+        keyboardType: lab == 'معلومات اضافية'
+            ? TextInputType.multiline
+            : TextInputType.text,
       ),
     );
   }

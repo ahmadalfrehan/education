@@ -9,6 +9,7 @@ import '../Cubit/cubit.dart';
 import '../Cubit/states.dart';
 import '../HomeLayout.dart';
 import '../Search/Search.dart';
+import '../constant.dart';
 
 class DetailsSchoolMore extends StatelessWidget {
   List list = [];
@@ -32,11 +33,12 @@ class DetailsSchoolMore extends StatelessWidget {
           );
           Timer(
             const Duration(seconds: 1),
-            () => Navigator.pushReplacement(
+                () => Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomeLayout(),
+                builder: (context) =>  HomeLayout(),
               ),
+                  (route) => false,
             ),
           );
         }
@@ -48,11 +50,12 @@ class DetailsSchoolMore extends StatelessWidget {
           );
           Timer(
             const Duration(seconds: 1),
-            () => Navigator.pushReplacement(
+                () => Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomeLayout(),
+                builder: (context) =>  HomeLayout(),
               ),
+                  (route) => false,
             ),
           );
         }
@@ -137,6 +140,26 @@ class DetailsSchoolMore extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 10),
+
+                          Container(
+                            height: 50,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Row(
+                              children: [
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  'المحافظة : ' + government.toString(),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+
                           Container(
                             width: double.infinity,
                             decoration: BoxDecoration(
@@ -144,7 +167,7 @@ class DetailsSchoolMore extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Text(
-                              ' المحافظة او العنوان  :  \n' +
+                              ' العنوان  :  \n' +
                                   list[index]['address'],
                               style: TextStyle(
                                 fontSize:
@@ -196,6 +219,31 @@ class DetailsSchoolMore extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 10),
+                          GestureDetector(
+                            onTap: () async {
+                              print('phone');
+                              await c.makePhoneCall(list[index]['managerPhone']);
+                            },
+                            child: Container(
+                              height: 50,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Row(
+                                children: [
+                                  const Text(' هاتف المدير : '),
+                                  Text(
+                                    list[index]['managerPhone'],
+                                    style: const TextStyle(
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
                           Container(
                             width: double.infinity,
                             decoration: BoxDecoration(
@@ -203,7 +251,17 @@ class DetailsSchoolMore extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child:
-                                Text(' معلومات اضافية  : \n' + list[index]['stage']),
+                                Text(' المرحلة  : \n' + list[index]['stage']),
+                          ),
+                          const SizedBox(height: 10),
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.black),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child:
+                            Text(' النوع  : \n' + list[index]['type']),
                           ),
                         ],
                       ),
