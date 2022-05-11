@@ -5,7 +5,6 @@ import '../../Cubit/cubit.dart';
 import '../../Cubit/states.dart';
 
 class Planning extends StatelessWidget {
-
   Planning({Key? key}) : super(key: key);
 
   Widget text(String t) {
@@ -15,16 +14,15 @@ class Planning extends StatelessWidget {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) => Education()..createDataBase(),
-      child: BlocConsumer<Education, Educational>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          var E = Education.get(context);
-          return Column(children: [
+    return BlocConsumer<Education, Educational>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        var E = Education.get(context);
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
             const Divider(color: Colors.black, thickness: 1),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -46,8 +44,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark1 = E.ChangeStingVar(
-                          E.mark1.toString(), '1');
+                      E.mark1 = E.ChangeStingVar(E.mark1.toString(), '1');
                     },
                     child: text('1'),
                   ),
@@ -55,8 +52,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark1 = E.ChangeStingVar(
-                          E.mark1.toString(), '2');
+                      E.mark1 = E.ChangeStingVar(E.mark1.toString(), '2');
                     },
                     child: text('2'),
                   ),
@@ -64,8 +60,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark1 = E.ChangeStingVar(
-                          E.mark1.toString(), '3');
+                      E.mark1 = E.ChangeStingVar(E.mark1.toString(), '3');
                     },
                     child: text('3'),
                   ),
@@ -73,8 +68,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark1 = E.ChangeStingVar(
-                          E.mark1.toString(), '4');
+                      E.mark1 = E.ChangeStingVar(E.mark1.toString(), '4');
                     },
                     child: text('4'),
                   ),
@@ -82,8 +76,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark1 = E.ChangeStingVar(
-                          E.mark1.toString(), '5');
+                      E.mark1 = E.ChangeStingVar(E.mark1.toString(), '5');
                     },
                     child: text('5'),
                   ),
@@ -98,8 +91,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark2 = E.ChangeStingVar(
-                          E.mark2.toString(), '1');
+                      E.mark2 = E.ChangeStingVar(E.mark2.toString(), '1');
                     },
                     child: text('1'),
                   ),
@@ -107,8 +99,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark2 = E.ChangeStingVar(
-                          E.mark2.toString(), '2');
+                      E.mark2 = E.ChangeStingVar(E.mark2.toString(), '2');
                     },
                     child: text('2'),
                   ),
@@ -116,8 +107,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark2 = E.ChangeStingVar(
-                          E.mark2.toString(), '3');
+                      E.mark2 = E.ChangeStingVar(E.mark2.toString(), '3');
                     },
                     child: text('3'),
                   ),
@@ -125,8 +115,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark2 = E.ChangeStingVar(
-                          E.mark2.toString(), '4');
+                      E.mark2 = E.ChangeStingVar(E.mark2.toString(), '4');
                     },
                     child: text('4'),
                   ),
@@ -134,8 +123,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark2 = E.ChangeStingVar(
-                          E.mark2.toString(), '5');
+                      E.mark2 = E.ChangeStingVar(E.mark2.toString(), '5');
                     },
                     child: text('5'),
                   ),
@@ -150,8 +138,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark3 = E.ChangeStingVar(
-                          E.mark3.toString(), '1');
+                      E.mark3 = E.ChangeStingVar(E.mark3.toString(), '1');
                     },
                     child: text('1'),
                   ),
@@ -159,8 +146,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark3 = E.ChangeStingVar(
-                          E.mark3.toString(), '2');
+                      E.mark3 = E.ChangeStingVar(E.mark3.toString(), '2');
                     },
                     child: text('2'),
                   ),
@@ -168,8 +154,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark3 = E.ChangeStingVar(
-                          E.mark3.toString(), '3');
+                      E.mark3 = E.ChangeStingVar(E.mark3.toString(), '3');
                     },
                     child: text('3'),
                   ),
@@ -177,8 +162,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark3 = E.ChangeStingVar(
-                          E.mark3.toString(), '4');
+                      E.mark3 = E.ChangeStingVar(E.mark3.toString(), '4');
                     },
                     child: text('4'),
                   ),
@@ -186,8 +170,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark3 = E.ChangeStingVar(
-                          E.mark3.toString(), '5');
+                      E.mark3 = E.ChangeStingVar(E.mark3.toString(), '5');
                     },
                     child: text('5'),
                   ),
@@ -202,8 +185,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark4 = E.ChangeStingVar(
-                          E.mark4.toString(), '1');
+                      E.mark4 = E.ChangeStingVar(E.mark4.toString(), '1');
                     },
                     child: text('1'),
                   ),
@@ -211,8 +193,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark4 = E.ChangeStingVar(
-                          E.mark4.toString(), '2');
+                      E.mark4 = E.ChangeStingVar(E.mark4.toString(), '2');
                     },
                     child: text('2'),
                   ),
@@ -220,8 +201,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark4 = E.ChangeStingVar(
-                          E.mark4.toString(), '3');
+                      E.mark4 = E.ChangeStingVar(E.mark4.toString(), '3');
                     },
                     child: text('3'),
                   ),
@@ -229,8 +209,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark4 = E.ChangeStingVar(
-                          E.mark4.toString(), '4');
+                      E.mark4 = E.ChangeStingVar(E.mark4.toString(), '4');
                     },
                     child: text('4'),
                   ),
@@ -238,8 +217,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark4 = E.ChangeStingVar(
-                          E.mark4.toString(), '5');
+                      E.mark4 = E.ChangeStingVar(E.mark4.toString(), '5');
                     },
                     child: text('5'),
                   ),
@@ -254,8 +232,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark5 = E.ChangeStingVar(
-                          E.mark5.toString(), '1');
+                      E.mark5 = E.ChangeStingVar(E.mark5.toString(), '1');
                     },
                     child: text('1'),
                   ),
@@ -263,8 +240,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark5 = E.ChangeStingVar(
-                          E.mark5.toString(), '2');
+                      E.mark5 = E.ChangeStingVar(E.mark5.toString(), '2');
                     },
                     child: text('2'),
                   ),
@@ -272,8 +248,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark5 = E.ChangeStingVar(
-                          E.mark5.toString(), '3');
+                      E.mark5 = E.ChangeStingVar(E.mark5.toString(), '3');
                     },
                     child: text('3'),
                   ),
@@ -281,8 +256,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark5 = E.ChangeStingVar(
-                          E.mark5.toString(), '4');
+                      E.mark5 = E.ChangeStingVar(E.mark5.toString(), '4');
                     },
                     child: text('4'),
                   ),
@@ -290,8 +264,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark5 = E.ChangeStingVar(
-                          E.mark5.toString(), '5');
+                      E.mark5 = E.ChangeStingVar(E.mark5.toString(), '5');
                     },
                     child: text('5'),
                   ),
@@ -306,8 +279,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark6 = E.ChangeStingVar(
-                          E.mark6.toString(), '1');
+                      E.mark6 = E.ChangeStingVar(E.mark6.toString(), '1');
                     },
                     child: text('1'),
                   ),
@@ -315,8 +287,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark6 = E.ChangeStingVar(
-                          E.mark6.toString(), '2');
+                      E.mark6 = E.ChangeStingVar(E.mark6.toString(), '2');
                     },
                     child: text('2'),
                   ),
@@ -324,8 +295,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark6 = E.ChangeStingVar(
-                          E.mark6.toString(), '3');
+                      E.mark6 = E.ChangeStingVar(E.mark6.toString(), '3');
                     },
                     child: text('3'),
                   ),
@@ -333,8 +303,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark6 = E.ChangeStingVar(
-                          E.mark6.toString(), '4');
+                      E.mark6 = E.ChangeStingVar(E.mark6.toString(), '4');
                     },
                     child: text('4'),
                   ),
@@ -342,8 +311,7 @@ class Planning extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.mark6 = E.ChangeStingVar(
-                          E.mark6.toString(), '5');
+                      E.mark6 = E.ChangeStingVar(E.mark6.toString(), '5');
                     },
                     child: text('5'),
                   ),
@@ -352,9 +320,9 @@ class Planning extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             const Divider(color: Colors.black, thickness: 1),
-          ],);
-        },
-      ),
+          ],
+        );
+      },
     );
   }
 }

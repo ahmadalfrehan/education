@@ -5,7 +5,6 @@ import '../../Cubit/cubit.dart';
 import '../../Cubit/states.dart';
 
 class Calender extends StatelessWidget {
-
   Calender({Key? key}) : super(key: key);
 
   Widget text(String t) {
@@ -15,17 +14,15 @@ class Calender extends StatelessWidget {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) => Education()..createDataBase(),
-      child: BlocConsumer<Education, Educational>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          var E = Education.get(context);
-          return Column(children: [
-
+    return BlocConsumer<Education, Educational>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        var E = Education.get(context);
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
             const Divider(color: Colors.black, thickness: 1),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -40,28 +37,24 @@ class Calender extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 10),
-            Text(E.calender1 +
-                '\t' +
-                E.markCalender1.toString()),
+            Text(E.calender1 + '\t' + E.markCalender1.toString()),
             const SizedBox(height: 10),
             Row(
               children: [
+                Expanded(
+                  child: MaterialButton(
+                    onPressed: () {
+                      E.markCalender1 = E.changeStringVarForCalender(
+                          E.markCalender1.toString(), '1');
+                    },
+                    child: text('1'),
+                  ),
+                ),
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
                       E.markCalender1 =
-                          E.changeStringVarForCalender(
-                              E.markCalender1.toString(),
-                              '1');
-                    },
-                    child: text('1'),
-                  ),
-                ),
-                Expanded(
-                  child: MaterialButton(
-                    onPressed: () {
-                      E.markCalender1 = E.ChangeStingVar(
-                          E.markCalender1.toString(), '2');
+                          E.ChangeStingVar(E.markCalender1.toString(), '2');
                     },
                     child: text('2'),
                   ),
@@ -69,8 +62,8 @@ class Calender extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markCalender1 = E.ChangeStingVar(
-                          E.markCalender1.toString(), '3');
+                      E.markCalender1 =
+                          E.ChangeStingVar(E.markCalender1.toString(), '3');
                     },
                     child: text('3'),
                   ),
@@ -78,8 +71,8 @@ class Calender extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markCalender1 = E.ChangeStingVar(
-                          E.markCalender1.toString(), '4');
+                      E.markCalender1 =
+                          E.ChangeStingVar(E.markCalender1.toString(), '4');
                     },
                     child: text('4'),
                   ),
@@ -87,8 +80,8 @@ class Calender extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markCalender1 = E.ChangeStingVar(
-                          E.markCalender1.toString(), '5');
+                      E.markCalender1 =
+                          E.ChangeStingVar(E.markCalender1.toString(), '5');
                     },
                     child: text('5'),
                   ),
@@ -96,17 +89,15 @@ class Calender extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 10),
-            Text(E.calender2 +
-                '\t' +
-                E.markCalender2.toString()),
+            Text(E.calender2 + '\t' + E.markCalender2.toString()),
             const SizedBox(height: 10),
             Row(
               children: [
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markCalender2 = E.ChangeStingVar(
-                          E.markCalender2.toString(), '1');
+                      E.markCalender2 =
+                          E.ChangeStingVar(E.markCalender2.toString(), '1');
                     },
                     child: text('1'),
                   ),
@@ -114,8 +105,8 @@ class Calender extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markCalender2 = E.ChangeStingVar(
-                          E.markCalender2.toString(), '2');
+                      E.markCalender2 =
+                          E.ChangeStingVar(E.markCalender2.toString(), '2');
                     },
                     child: text('2'),
                   ),
@@ -123,8 +114,8 @@ class Calender extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markCalender2 = E.ChangeStingVar(
-                          E.markCalender2.toString(), '3');
+                      E.markCalender2 =
+                          E.ChangeStingVar(E.markCalender2.toString(), '3');
                     },
                     child: text('3'),
                   ),
@@ -132,8 +123,8 @@ class Calender extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markCalender2 = E.ChangeStingVar(
-                          E.markCalender2.toString(), '4');
+                      E.markCalender2 =
+                          E.ChangeStingVar(E.markCalender2.toString(), '4');
                     },
                     child: text('4'),
                   ),
@@ -141,8 +132,8 @@ class Calender extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markCalender2 = E.ChangeStingVar(
-                          E.markCalender2.toString(), '5');
+                      E.markCalender2 =
+                          E.ChangeStingVar(E.markCalender2.toString(), '5');
                     },
                     child: text('5'),
                   ),
@@ -150,17 +141,15 @@ class Calender extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 10),
-            Text(E.calender3 +
-                '\t' +
-                E.markCalender3.toString()),
+            Text(E.calender3 + '\t' + E.markCalender3.toString()),
             const SizedBox(height: 10),
             Row(
               children: [
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markCalender3 = E.ChangeStingVar(
-                          E.markCalender3.toString(), '1');
+                      E.markCalender3 =
+                          E.ChangeStingVar(E.markCalender3.toString(), '1');
                     },
                     child: text('1'),
                   ),
@@ -168,8 +157,8 @@ class Calender extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markCalender3 = E.ChangeStingVar(
-                          E.markCalender3.toString(), '2');
+                      E.markCalender3 =
+                          E.ChangeStingVar(E.markCalender3.toString(), '2');
                     },
                     child: text('2'),
                   ),
@@ -177,8 +166,8 @@ class Calender extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markCalender3 = E.ChangeStingVar(
-                          E.markCalender3.toString(), '3');
+                      E.markCalender3 =
+                          E.ChangeStingVar(E.markCalender3.toString(), '3');
                     },
                     child: text('3'),
                   ),
@@ -186,8 +175,8 @@ class Calender extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markCalender3 = E.ChangeStingVar(
-                          E.markCalender3.toString(), '4');
+                      E.markCalender3 =
+                          E.ChangeStingVar(E.markCalender3.toString(), '4');
                     },
                     child: text('4'),
                   ),
@@ -195,8 +184,8 @@ class Calender extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markCalender3 = E.ChangeStingVar(
-                          E.markCalender3.toString(), '5');
+                      E.markCalender3 =
+                          E.ChangeStingVar(E.markCalender3.toString(), '5');
                     },
                     child: text('5'),
                   ),
@@ -204,16 +193,14 @@ class Calender extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 10),
-            Text(E.calender4 +
-                '\t' +
-                E.markCalender4.toString()),
+            Text(E.calender4 + '\t' + E.markCalender4.toString()),
             Row(
               children: [
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markCalender4 = E.ChangeStingVar(
-                          E.markCalender4.toString(), '1');
+                      E.markCalender4 =
+                          E.ChangeStingVar(E.markCalender4.toString(), '1');
                     },
                     child: text('1'),
                   ),
@@ -221,8 +208,8 @@ class Calender extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markCalender4 = E.ChangeStingVar(
-                          E.markCalender4.toString(), '2');
+                      E.markCalender4 =
+                          E.ChangeStingVar(E.markCalender4.toString(), '2');
                     },
                     child: text('2'),
                   ),
@@ -230,8 +217,8 @@ class Calender extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markCalender4 = E.ChangeStingVar(
-                          E.markCalender4.toString(), '3');
+                      E.markCalender4 =
+                          E.ChangeStingVar(E.markCalender4.toString(), '3');
                     },
                     child: text('3'),
                   ),
@@ -239,8 +226,8 @@ class Calender extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markCalender4 = E.ChangeStingVar(
-                          E.markCalender4.toString(), '4');
+                      E.markCalender4 =
+                          E.ChangeStingVar(E.markCalender4.toString(), '4');
                     },
                     child: text('4'),
                   ),
@@ -248,17 +235,17 @@ class Calender extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markCalender4 = E.ChangeStingVar(
-                          E.markCalender4.toString(), '5');
+                      E.markCalender4 =
+                          E.ChangeStingVar(E.markCalender4.toString(), '5');
                     },
                     child: text('5'),
                   ),
                 ),
               ],
             ),
-          ],);
-        },
-      ),
+          ],
+        );
+      },
     );
   }
 }

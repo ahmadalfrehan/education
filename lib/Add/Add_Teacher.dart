@@ -30,11 +30,13 @@ class AddTeacher extends StatelessWidget {
       backgroundColor: const Color(0xFF0b4972),
     );
   }
+
   /**/
   List<String> school = [];
-  selectSchools(List s){
+
+  selectSchools(List s) {
     school.clear();
-    for(int i=0;i<s.length;i++){
+    for (int i = 0; i < s.length; i++) {
       school.add(s[i]['name']);
     }
   }
@@ -106,23 +108,30 @@ class AddTeacher extends StatelessWidget {
                           Container(
                             color: Colors.white,
                             child: Form(
-                              key:far,
+                              key: far,
                               child: Column(
                                 children: [
-                                  TextFormF("الاسم", Icons.person, E.nameController, E),
-                                  Padding( padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+                                  TextFormF("الاسم", Icons.person,
+                                      E.nameController, E),
+                                  Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                        30, 10, 30, 10),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Expanded(
                                           child: DropdownButton<String>(
                                             isExpanded: true,
                                             menuMaxHeight:
-                                            MediaQuery.of(context).size.height /
-                                                2,
+                                                MediaQuery.of(context)
+                                                        .size
+                                                        .height /
+                                                    2,
                                             alignment: Alignment.center,
                                             elevation: 15,
-                                            borderRadius: const BorderRadius.all(
+                                            borderRadius:
+                                                const BorderRadius.all(
                                               Radius.circular(15),
                                             ),
                                             hint: Text(
@@ -132,8 +141,7 @@ class AddTeacher extends StatelessWidget {
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.w600),
                                             ),
-                                            items: school
-                                                .map((String value) {
+                                            items: school.map((String value) {
                                               return DropdownMenuItem(
                                                 value: value,
                                                 child: Text(value.toString()),
@@ -141,7 +149,11 @@ class AddTeacher extends StatelessWidget {
                                             }).toList(),
                                             onChanged: (newValue) async {
                                               print(newValue);
-                                              E.schoolName = Education.get(context).changeStringV(E.schoolName,newValue.toString());
+                                              E.schoolName =
+                                                  Education.get(context)
+                                                      .changeStringV(
+                                                          E.schoolName,
+                                                          newValue.toString());
                                             },
                                           ),
                                         ),
@@ -149,11 +161,16 @@ class AddTeacher extends StatelessWidget {
                                     ),
                                   ),
                                   //TextFormF("اسم المدرسة", Icons.phone, E.phoneController, E),
-                                  TextFormF("الصف", Icons.person, E.classController, E),
-                                  TextFormF("الشعبة", Icons.info_outline, E.divisionController, E),
-                                  TextFormF("المادة", Icons.price_change, E.itemController, E),
-                                  TextFormF("عنوان الدرس", Icons.price_check, E.titleOfLessonController, E),
-                                  TextFormF("التاريخ", Icons.price_check, E.dateController, E),
+                                  TextFormF("الصف", Icons.person,
+                                      E.classController, E),
+                                  TextFormF("الشعبة", Icons.info_outline,
+                                      E.divisionController, E),
+                                  TextFormF("المادة", Icons.price_change,
+                                      E.itemController, E),
+                                  TextFormF("عنوان الدرس", Icons.price_check,
+                                      E.titleOfLessonController, E),
+                                  TextFormF("التاريخ", Icons.price_check,
+                                      E.dateController, E),
                                 ],
                               ),
                             ),
@@ -167,14 +184,13 @@ class AddTeacher extends StatelessWidget {
                               Calender(),
                               const SizedBox(height: 10),
                               CaHr(),
-                              const Divider(color: Colors.black, thickness: 1),
+                              const SizedBox(height: 10),
                               PlanningField(),
-                              const Divider(color: Colors.black, thickness: 1),
                               ScientificField(),
                               const SizedBox(height: 10),
                               EducationField(),
                               const SizedBox(height: 10),
-                              ],
+                            ],
                           ),
                           Row(
                             children: [
@@ -184,130 +200,204 @@ class AddTeacher extends StatelessWidget {
                                   child: MaterialButton(
                                     elevation: 20,
                                     onPressed: () {
-                                      if(far.currentState!.validate()){
-                                      var e = AlertDialog(
-                                        scrollable: true,
-                                        actions: [
-                                          MaterialButton(
+                                      if(!school.contains(E.schoolName)){
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text('اختر المدرسة'),
+                                          ),
+                                        );
+                                      }
+                                      if (far.currentState!.validate()&&school
+                                          .contains(E.schoolName)) {
+                                        var e = AlertDialog(
+                                          scrollable: true,
+                                          actions: [
+                                            MaterialButton(
                                               color: const Color(0xFF0b4972),
                                               onPressed: () {
                                                 Navigator.of(context).pop();
                                               },
-                                              child: const Text('cancel',
-                                                  style: TextStyle(
-                                                      color: Colors.white,),),),
-                                        ],
-                                        title: const Text('ماذا تريد ان تفعل ؟ :',
-                                            textDirection: TextDirection.rtl),
-                                        shape: BeveledRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15),
-                                        ),
-                                        content: Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height /
-                                              4,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.7,
-                                          child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Divider(),
-                                                MaterialButton(
-                                                  onPressed: () {
-                                                    E.saveAndInitialiseVariables();
-                                                    E.insertInToTeacherTableDataBase(
-                                                      name:
-                                                          E.nameController.text,
-                                                      phone: E
-                                                          .schoolName,
-                                                      clas: E
-                                                          .classController.text,
-                                                      date:
-                                                          E.dateController.text,
-                                                      division: E
-                                                          .divisionController
-                                                          .text,
-                                                      item:
-                                                          E.itemController.text,
-                                                      titleOfLesson: E
-                                                          .titleOfLessonController
-                                                          .text,
-                                                      cAhR: E.cAhR.toString(),
-                                                      calender:
-                                                          E.calender.toString(),
-                                                      educationalField: E
-                                                          .educationField
-                                                          .toString(),
-                                                      execution: E.execution
-                                                          .toString(),
-                                                      planning:
-                                                          E.planning.toString(),
-                                                      planningField: E
-                                                          .planningField
-                                                          .toString(),
-                                                      scientificField: E
-                                                          .scientificField
-                                                          .toString(),
-                                                      idSchool: idSchool,
-                                                    );
-                                                    E.nameController =
-                                                        TextEditingController();
-                                                    E.schoolName =
-                                                        'اختر المدرسة';
-                                                    E.classController =
-                                                        TextEditingController();
-                                                    E.dateController =
-                                                        TextEditingController();
-                                                    E.divisionController =
-                                                        TextEditingController();
-                                                    E.itemController =
-                                                        TextEditingController();
-                                                    E.titleOfLessonController =
-                                                        TextEditingController();
-                                                  },
-                                                  child: const Text(
-                                                    'هل تريد الحفظ ؟',
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                    ),
-                                                  ),
-                                                  minWidth:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width *
-                                                          0.7,
-                                                  color:
-                                                      const Color(0xFF0b4972),
+                                              child: const Text(
+                                                'cancel',
+                                                style: TextStyle(
+                                                  color: Colors.white,
                                                 ),
-                                                Divider(),
-                                                MaterialButton(
-                                                  minWidth:
-                                                      MediaQuery.of(context)
-                                                              .size
-                                                              .width *
-                                                          0.7,
-                                                  onPressed: () {},
-                                                  child: const Text(
-                                                    'هل تريد الحفظ والارسال ؟',
-                                                    style: TextStyle(
-                                                      color: Colors.white,
+                                              ),
+                                            ),
+                                          ],
+                                          title: const Text(
+                                              'ماذا تريد ان تفعل ؟ :',
+                                              textDirection: TextDirection.rtl),
+                                          shape: BeveledRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(15),
+                                          ),
+                                          content: Container(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .height /
+                                                4,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.7,
+                                            child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Divider(),
+                                                  MaterialButton(
+                                                    onPressed: () {
+                                                      E.saveAndInitialiseVariables();
+                                                      E.insertInToTeacherTableDataBase(
+                                                        name: E.nameController
+                                                            .text,
+                                                        phone: E.schoolName,
+                                                        clas: E.classController
+                                                            .text,
+                                                        date: E.dateController
+                                                            .text,
+                                                        division: E
+                                                            .divisionController
+                                                            .text,
+                                                        item: E.itemController
+                                                            .text,
+                                                        titleOfLesson: E
+                                                            .titleOfLessonController
+                                                            .text,
+                                                        cAhR: E.cAhR.toString(),
+                                                        calender: E.calender
+                                                            .toString(),
+                                                        educationalField: E
+                                                            .educationField
+                                                            .toString(),
+                                                        execution: E.execution
+                                                            .toString(),
+                                                        planning: E.planning
+                                                            .toString(),
+                                                        planningField: E
+                                                            .planningField
+                                                            .toString(),
+                                                        scientificField: E
+                                                            .scientificField
+                                                            .toString(),
+                                                        idSchool: idSchool,
+                                                      );
+
+                                                      E.nameController =
+                                                          TextEditingController();
+                                                      E.schoolName =
+                                                          'اختر المدرسة';
+                                                      E.classController =
+                                                          TextEditingController();
+                                                      E.dateController =
+                                                          TextEditingController();
+                                                      E.divisionController =
+                                                          TextEditingController();
+                                                      E.itemController =
+                                                          TextEditingController();
+                                                      E.titleOfLessonController =
+                                                          TextEditingController();
+
+                                                      E.mark1 = '';
+                                                      E.mark2 = '';
+                                                      E.mark3 = '';
+                                                      E.mark4 = '';
+                                                      E.mark5 = '';
+                                                      E.mark6 = '';
+
+                                                      E.markExecution1 = '';
+                                                      E.markExecution2 = '';
+                                                      E.markExecution3 = '';
+                                                      E.markExecution4 = '';
+                                                      E.markExecution5 = '';
+                                                      E.markExecution6 = '';
+
+                                                      E.markCalender1 = '';
+                                                      E.markCalender2 = '';
+                                                      E.markCalender3 = '';
+                                                      E.markCalender4 = '';
+
+                                                      E.markCaHr1 = '';
+                                                      E.markCaHr2 = '';
+                                                      E.markCaHr3 = '';
+                                                      E.markCaHr4 = '';
+                                                      E.markCaHr5 = '';
+                                                      E.markCaHr6 = '';
+                                                      E.markCaHr7 = '';
+                                                      E.markCaHr8 = '';
+                                                      E.markCaHr9 = '';
+
+                                                      E.markPlanningField1 = '';
+                                                      E.markPlanningField2 = '';
+                                                      E.markPlanningField3 = '';
+
+                                                      E.markScientificField1 =
+                                                          '';
+                                                      E.markScientificField2 =
+                                                          '';
+                                                      E.markScientificField3 =
+                                                          '';
+
+                                                      E.markEducationField1 =
+                                                          '';
+                                                      E.markEducationField2 =
+                                                          '';
+                                                      E.markEducationField3 =
+                                                          '';
+                                                      E.markEducationField4 =
+                                                          '';
+                                                      E.markEducationField5 =
+                                                          '';
+                                                      E.markEducationField6 =
+                                                          '';
+                                                      E.markEducationField7 =
+                                                          '';
+                                                      E.markEducationField8 =
+                                                          '';
+                                                      E.markEducationField9 =
+                                                          '';
+                                                    },
+                                                    child: const Text(
+                                                      'هل تريد الحفظ ؟',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                      ),
                                                     ),
+                                                    minWidth:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.7,
+                                                    color:
+                                                        const Color(0xFF0b4972),
                                                   ),
-                                                  color:
-                                                      const Color(0xFF0b4972),
-                                                ),
-                                              ]),
-                                        ),
-                                      );
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) => e);
-                                    }},
+                                                  Divider(),
+                                                  MaterialButton(
+                                                    minWidth:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.7,
+                                                    onPressed: () {},
+                                                    child: const Text(
+                                                      'هل تريد الحفظ والارسال ؟',
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                    color:
+                                                        const Color(0xFF0b4972),
+                                                  ),
+                                                ]),
+                                          ),
+                                        );
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) => e);
+                                      }
+                                    },
                                     child: const Text(
                                       'Save',
                                       style: TextStyle(
@@ -350,7 +440,7 @@ class AddTeacher extends StatelessWidget {
             borderRadius: BorderRadius.circular(20.0),
             borderSide: BorderSide(color: c.Color1, width: 2.0),
           ),
-          enabled: (lab=='اسم المدرسة'||lab=='المادة')?false:true,
+          enabled: (lab == 'اسم المدرسة' || lab == 'المادة') ? false : true,
           fillColor: Colors.white,
           filled: true,
           labelText: lab,

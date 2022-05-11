@@ -5,7 +5,6 @@ import '../../Cubit/cubit.dart';
 import '../../Cubit/states.dart';
 
 class ScientificField extends StatelessWidget {
-
   ScientificField({Key? key}) : super(key: key);
 
   Widget text(String t) {
@@ -17,38 +16,34 @@ class ScientificField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) => Education()..createDataBase(),
-      child: BlocConsumer<Education, Educational>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          var E = Education.get(context);
-          return Column(children: [
+    return BlocConsumer<Education, Educational>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        var E = Education.get(context);
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 10),
+            const Divider(color: Colors.black, thickness: 1),
             const SizedBox(height: 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
                 Text('المجال العلمي : ',
-                    style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 18)),
+                    style:
+                        TextStyle(fontWeight: FontWeight.w600, fontSize: 18)),
               ],
             ),
             const SizedBox(height: 10),
-            Text(E.scientificField1 +
-                '\t' +
-                E.markScientificField1.toString()),
+            Text(E.scientificField1 + '\t' + E.markScientificField1.toString()),
             const SizedBox(height: 10),
             Row(
               children: [
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markScientificField1 =
-                          E.ChangeStingVar(
-                              E.markScientificField1
-                                  .toString(),
-                              '1');
+                      E.markScientificField1 = E.ChangeStingVar(
+                          E.markScientificField1.toString(), '1');
                       print(E.markScientificField1);
                     },
                     child: text('1'),
@@ -57,11 +52,8 @@ class ScientificField extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markScientificField1 =
-                          E.ChangeStingVar(
-                              E.markScientificField1
-                                  .toString(),
-                              '2');
+                      E.markScientificField1 = E.ChangeStingVar(
+                          E.markScientificField1.toString(), '2');
                     },
                     child: text('2'),
                   ),
@@ -69,11 +61,8 @@ class ScientificField extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markScientificField1 =
-                          E.ChangeStingVar(
-                              E.markScientificField1
-                                  .toString(),
-                              '3');
+                      E.markScientificField1 = E.ChangeStingVar(
+                          E.markScientificField1.toString(), '3');
                     },
                     child: text('3'),
                   ),
@@ -81,11 +70,8 @@ class ScientificField extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markScientificField1 =
-                          E.ChangeStingVar(
-                              E.markScientificField1
-                                  .toString(),
-                              '4');
+                      E.markScientificField1 = E.ChangeStingVar(
+                          E.markScientificField1.toString(), '4');
                     },
                     child: text('4'),
                   ),
@@ -93,11 +79,8 @@ class ScientificField extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markScientificField1 =
-                          E.ChangeStingVar(
-                              E.markScientificField1
-                                  .toString(),
-                              '5');
+                      E.markScientificField1 = E.ChangeStingVar(
+                          E.markScientificField1.toString(), '5');
                     },
                     child: text('5'),
                   ),
@@ -105,20 +88,15 @@ class ScientificField extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 10),
-            Text(E.scientificField2 +
-                '\t' +
-                E.markScientificField2.toString()),
+            Text(E.scientificField2 + '\t' + E.markScientificField2.toString()),
             const SizedBox(height: 10),
             Row(
               children: [
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markScientificField2 =
-                          E.ChangeStingVar(
-                              E.markScientificField2
-                                  .toString(),
-                              '1');
+                      E.markScientificField2 = E.ChangeStingVar(
+                          E.markScientificField2.toString(), '1');
                     },
                     child: text('1'),
                   ),
@@ -126,11 +104,8 @@ class ScientificField extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markScientificField2 =
-                          E.ChangeStingVar(
-                              E.markScientificField2
-                                  .toString(),
-                              '2');
+                      E.markScientificField2 = E.ChangeStingVar(
+                          E.markScientificField2.toString(), '2');
                     },
                     child: text('2'),
                   ),
@@ -138,11 +113,8 @@ class ScientificField extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markScientificField2 =
-                          E.ChangeStingVar(
-                              E.markScientificField2
-                                  .toString(),
-                              '3');
+                      E.markScientificField2 = E.ChangeStingVar(
+                          E.markScientificField2.toString(), '3');
                     },
                     child: text('3'),
                   ),
@@ -150,11 +122,8 @@ class ScientificField extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markScientificField2 =
-                          E.ChangeStingVar(
-                              E.markScientificField2
-                                  .toString(),
-                              '4');
+                      E.markScientificField2 = E.ChangeStingVar(
+                          E.markScientificField2.toString(), '4');
                     },
                     child: text('4'),
                   ),
@@ -162,11 +131,8 @@ class ScientificField extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markScientificField2 =
-                          E.ChangeStingVar(
-                              E.markScientificField2
-                                  .toString(),
-                              '5');
+                      E.markScientificField2 = E.ChangeStingVar(
+                          E.markScientificField2.toString(), '5');
                     },
                     child: text('5'),
                   ),
@@ -174,20 +140,15 @@ class ScientificField extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 10),
-            Text(E.scientificField3 +
-                '\t' +
-                E.markScientificField3.toString()),
+            Text(E.scientificField3 + '\t' + E.markScientificField3.toString()),
             const SizedBox(height: 10),
             Row(
               children: [
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markScientificField3 =
-                          E.ChangeStingVar(
-                              E.markScientificField3
-                                  .toString(),
-                              '1');
+                      E.markScientificField3 = E.ChangeStingVar(
+                          E.markScientificField3.toString(), '1');
                     },
                     child: text('1'),
                   ),
@@ -195,11 +156,8 @@ class ScientificField extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markScientificField3 =
-                          E.ChangeStingVar(
-                              E.markScientificField3
-                                  .toString(),
-                              '2');
+                      E.markScientificField3 = E.ChangeStingVar(
+                          E.markScientificField3.toString(), '2');
                     },
                     child: text('2'),
                   ),
@@ -207,11 +165,8 @@ class ScientificField extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markScientificField3 =
-                          E.ChangeStingVar(
-                              E.markScientificField3
-                                  .toString(),
-                              '3');
+                      E.markScientificField3 = E.ChangeStingVar(
+                          E.markScientificField3.toString(), '3');
                     },
                     child: text('3'),
                   ),
@@ -219,11 +174,8 @@ class ScientificField extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markScientificField3 =
-                          E.ChangeStingVar(
-                              E.markScientificField3
-                                  .toString(),
-                              '4');
+                      E.markScientificField3 = E.ChangeStingVar(
+                          E.markScientificField3.toString(), '4');
                     },
                     child: text('4'),
                   ),
@@ -231,11 +183,8 @@ class ScientificField extends StatelessWidget {
                 Expanded(
                   child: MaterialButton(
                     onPressed: () {
-                      E.markScientificField3 =
-                          E.ChangeStingVar(
-                              E.markScientificField3
-                                  .toString(),
-                              '5');
+                      E.markScientificField3 = E.ChangeStingVar(
+                          E.markScientificField3.toString(), '5');
                     },
                     child: text('5'),
                   ),
@@ -243,10 +192,9 @@ class ScientificField extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 10),
-
-          ],);
-        },
-      ),
+          ],
+        );
+      },
     );
   }
 }
