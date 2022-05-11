@@ -51,10 +51,10 @@ class Add_School extends StatelessWidget {
                       TextFormF(
                           "اسم المدرسة", Icons.person, c.nameSchoolController, c),
                   TextFormF(" العنوان ", Icons.person, c.addressController, c),
-                  TextFormF(
+                      TextFormFNotValidate(
+                          "هاتف المدرسة", Icons.phone, c.phoneSchoolController, c),
+                      TextFormF(
                       "المدير", Icons.info_outline, c.managerController, c),
-                  TextFormFNotValidate(
-                      "الهاتف", Icons.phone, c.phoneSchoolController, c),
                   TextFormFNotValidate(
                       "هاتف المدير", Icons.phone, c.managerPhoneController, c),
                     ],

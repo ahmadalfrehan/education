@@ -1,5 +1,7 @@
 import 'package:education_evaluation/Cubit/cubit.dart';
 import 'package:education_evaluation/DetailsScreens/DetailsSchools.dart';
+import 'package:education_evaluation/constant.dart';
+import 'package:education_evaluation/sharedHELper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../Add/Add_Teacher.dart';
@@ -11,13 +13,12 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    int idSchool = 1;
-    int indeX = 0;
     print(MediaQuery.of(context).size.height);
     print(MediaQuery.of(context).size.width);
     return BlocConsumer<Education, Educational>(
       listener: (context, state) {},
       builder: (context, state) {
+        var e = Education.get(context);
         return Scaffold(
           body: Stack(
             children: [
@@ -37,7 +38,7 @@ class HomePage extends StatelessWidget {
                        SizedBox(
                         width: MediaQuery.of(context).size.width>=400?60:20,
                       ),
-                      Image.asset('build/assets/logo.png',),
+                      Image.asset('assets/logo.png',),
                       const SizedBox(
                         width: 20,
                       ),
@@ -92,9 +93,9 @@ class HomePage extends StatelessWidget {
                               },
                               onTap: () {
                                 Education.get(context).changeIndex(index);
-                                idSchool = Education.get(context).schools[index]
+                                e.idSchool = Education.get(context).schools[index]
                                     ['idSchool'];
-                                indeX = index;
+                                e.indeX = index;
                               },
                               child: Container(
                                 alignment: Alignment.center,
@@ -129,7 +130,7 @@ class HomePage extends StatelessWidget {
                             scrollDirection: Axis.horizontal,
                             itemCount: Education.get(context).teachers.length,
                             itemBuilder: (context, index) {
-                              return idSchool ==
+                              return e.idSchool ==
                                       Education.get(context).teachers[index]
                                           ['idSchool']
                                   ? InkWell(
@@ -613,7 +614,7 @@ class HomePage extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) => AddTeacher(
-                                indeX, Education.get(context).schools),
+                                e.indeX, Education.get(context).schools),
                           ),
                         );
                       },
@@ -634,7 +635,10 @@ class HomePage extends StatelessWidget {
                   Expanded(
                     child: MaterialButton(
                       color: const Color(0xFF0b4972),
-                      onPressed: () {},
+                      onPressed: () {
+                      //  isAllowedToShown = null;
+                      //  Shard.sharedprefrences?.remove('isAllow');
+                      },
                       height: 45,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30)),

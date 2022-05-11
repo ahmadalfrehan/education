@@ -81,14 +81,14 @@ class EditSchool extends StatelessWidget {
                         c.addressEditSchoolController,
                         c,
                         list[index]['address']),
+                    textFormF("تعديل هاتف المدرسة",
+                        c.phoneEditSchoolController, c, list[index]['phone']),
                     TextFormF(
                         "تعديل المدير ",
                         Icons.person,
                         c.managerEditSchoolController,
                         c,
                         list[index]['manager']),
-                    textFormF("تعديل الهاتف ",
-                        c.phoneEditSchoolController, c, list[index]['phone']),
                     textFormF(
                         "تعديل هاتف المدير ",
                         c.managerPhoneEditSchoolController,

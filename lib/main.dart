@@ -12,14 +12,14 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Shard.initial();
   isAllowedToShown = Shard.sharedprefrences?.getBool('isAllow');//government
-  print(Shard.sharedprefrences?.getString('government').toString());
+  debugPrint(Shard.sharedprefrences?.getString('government').toString());
   if (Shard.sharedprefrences?.getString('government') != null) {
     government = Shard.sharedprefrences?.getString('government') as String;
-    print(government);
+    debugPrint(government);
   }
   if (Shard.sharedprefrences?.getString('items') != null) {
     item = Shard.sharedprefrences?.getString('items') as String;
-    print(item);
+    debugPrint(item);
   }
   runApp(const MyApp());
 }

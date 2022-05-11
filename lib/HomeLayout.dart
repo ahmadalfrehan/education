@@ -93,9 +93,10 @@ class HomeLayout extends StatelessWidget {
                                                   value: newValue)
                                               .then(
                                             (value) {
-                                              government = Education.get(context)
-                                                  .changeStringV(government,
-                                                      newValue.toString());
+                                              government =
+                                                  Education.get(context)
+                                                      .changeStringV(government,
+                                                          newValue.toString());
                                             },
                                           );
                                         },
@@ -104,30 +105,52 @@ class HomeLayout extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              Form(
-                                key: far,
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      vertical: 20, horizontal: 20),
-                                  child: TextFormField(
-                                    decoration: InputDecoration(
-                                        border: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(20.0),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 20, horizontal: 20),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      child: DropdownButton<String>(
+                                        isExpanded: true,
+                                        menuMaxHeight:
+                                            MediaQuery.of(context).size.height /
+                                                2,
+                                        alignment: Alignment.center,
+                                        elevation: 15,
+                                        borderRadius: const BorderRadius.all(
+                                          Radius.circular(15),
                                         ),
-                                        fillColor: Colors.white,
-                                        filled: true,
-                                        labelText: 'المادة'),
-                                    controller:
-                                        Education.get(context).itemsController,
-                                    keyboardType: TextInputType.text,
-                                    validator: (String? value) {
-                                      if (value!.isEmpty) {
-                                        return 'the item must not be empty';
-                                      }
-                                      return null;
-                                    },
-                                  ),
+                                        hint: Text(
+                                          item,
+                                          style: const TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                        items: Education.get(context)
+                                            .items
+                                            .map((String value) {
+                                          return DropdownMenuItem(
+                                            value: value,
+                                            child: Text(value.toString()),
+                                          );
+                                        }).toList(),
+                                        onChanged: (newValue) async {
+                                          await Shard.saveData(
+                                                  key: 'items', value: newValue)
+                                              .then(
+                                            (value) {
+                                              item = Education.get(context)
+                                                  .changeStringV(item,
+                                                      newValue.toString());
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                               Container(
@@ -142,36 +165,43 @@ class HomeLayout extends StatelessWidget {
                                     fixedSize: const Size(300, 50),
                                   ),
                                   onPressed: () async {
-                                    if (far.currentState!.validate()) {
-                                      if (!Education.get(context)
-                                          .government
-                                          .contains(government)) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          const SnackBar(
-                                            content: Text('اختر المحافظة'),
-                                          ),
-                                        );
-                                      }
-                                      await Shard.saveData(
-                                              key: 'items',
-                                              value: Education.get(context)
-                                                  .itemsController
-                                                  .text)
-                                          .then((value) async {
-                                        if (Education.get(context)
+                                    if (!Education.get(context)
+                                        .government
+                                        .contains(government)) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text('اختر المحافظة'),
+                                        ),
+                                      );
+                                    }
+
+                                    if (!Education.get(context)
+                                        .items
+                                        .contains(item)) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        const SnackBar(
+                                          content: Text('اختر المادة'),
+                                        ),
+                                      );
+                                    }
+                                    if (Education.get(context)
                                             .government
-                                            .contains(government)) {
-                                          bool t = true;
-                                          await Shard.saveData(
-                                                  key: 'isAllow', value: false)
-                                              .then((value) {
-                                            isAllowedToShown =
-                                                Education.get(context)
-                                                    .changeBoolean(t, false);
-                                          });
-                                        }
-                                      });
+                                            .contains(government) &&
+                                        Education.get(context)
+                                            .items
+                                            .contains(item)) {
+                                      bool t = true;
+                                      await Shard.saveData(
+                                              key: 'isAllow', value: false)
+                                          .then(
+                                        (value) {
+                                          isAllowedToShown =
+                                              Education.get(context)
+                                                  .changeBoolean(t, false);
+                                        },
+                                      );
                                     }
                                   },
                                   child: const Text(
@@ -194,7 +224,8 @@ class HomeLayout extends StatelessWidget {
                 bottomNavigationBar: CurvedNavigationBar(
                   index: c.currrentIndex,
                   items: const <Widget>[
-                    Icon(Icons.home_outlined, size: 30, color: Color(0xFFd4b614)),
+                    Icon(Icons.home_outlined,
+                        size: 30, color: Color(0xFFd4b614)),
                     Icon(Icons.school_outlined,
                         size: 30, color: Color(0xFFd4b614)),
                     Icon(

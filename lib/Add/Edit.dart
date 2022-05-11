@@ -228,6 +228,11 @@ class Edit extends StatelessWidget {
             borderRadius: BorderRadius.circular(20.0),
             borderSide: BorderSide(color: c.Color1, width: 2.0),
           ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.0),
+            borderSide: BorderSide(color: c.Color1, width: 2.0),
+          ),
+          enabled: (lab=='تعديل المدرسة '||lab=='تعديل المادة ')?false:true,
           fillColor: Colors.white,
           filled: true,
           labelText: lab,
