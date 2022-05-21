@@ -32,12 +32,14 @@ class AddTeacher extends StatelessWidget {
   }
 
   /**/
-  List<String> school = [];
+  List<Map<int, String>> school = [];
 
   selectSchools(List s) {
     school.clear();
-    for (int i = 0; i < s.length; i++) {
-      school.add(s[i]['name']);
+    forEach(s) {
+      school.add(s);
+      //school.add(s.idSchool, s.name);
+      //school.add(s[i]['name']);
     }
   }
 
@@ -74,7 +76,7 @@ class AddTeacher extends StatelessWidget {
       },
       builder: (context, state) {
         var E = Education.get(context);
-        idSchool = list[index]['idSchool'];
+        //idSchool = list[index]['idSchool'];
         E.phoneController.text = list[index]['name'];
         E.itemController.text = item;
         selectSchools(E.schools);
@@ -115,13 +117,13 @@ class AddTeacher extends StatelessWidget {
                                       E.nameController, E),
                                   Padding(
                                     padding: const EdgeInsets.fromLTRB(
-                                        30, 10, 30, 10),
+                                        30, 10, 30, 10,),
                                     child: Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
                                       children: [
                                         Expanded(
-                                          child: DropdownButton<String>(
+                                          child: DropdownButton(
                                             isExpanded: true,
                                             menuMaxHeight:
                                                 MediaQuery.of(context)
@@ -141,19 +143,32 @@ class AddTeacher extends StatelessWidget {
                                                   fontSize: 18,
                                                   fontWeight: FontWeight.w600),
                                             ),
-                                            items: school.map((String value) {
-                                              return DropdownMenuItem(
-                                                value: value,
-                                                child: Text(value.toString()),
+                                            items: E.schools.map((map) {
+                                              return DropdownMenuItem<String>(
+                                                onTap: () {
+                                                  E.schoolName =
+                                                      Education.get(context)
+                                                          .changeStringV(
+                                                    E.schoolName,
+                                                    map['name'].toString(),
+                                                  );
+                                                },
+                                                value:
+                                                    map['idSchool'].toString(),
+                                                child: Text(
+                                                    map['name'].toString()),
                                               );
                                             }).toList(),
                                             onChanged: (newValue) async {
                                               print(newValue);
-                                              E.schoolName =
+                                              E.idSchoolForAddSchool =
                                                   Education.get(context)
-                                                      .changeStringV(
-                                                          E.schoolName,
-                                                          newValue.toString());
+                                                      .changeIntV(
+                                                E.idSchoolForAddSchool,
+                                                int.parse(
+                                                  newValue.toString(),
+                                                ),
+                                              );
                                             },
                                           ),
                                         ),
@@ -200,7 +215,7 @@ class AddTeacher extends StatelessWidget {
                                   child: MaterialButton(
                                     elevation: 20,
                                     onPressed: () {
-                                      if(!school.contains(E.schoolName)){
+                                      if (!school.contains(E.schoolName)) {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           const SnackBar(
@@ -208,8 +223,8 @@ class AddTeacher extends StatelessWidget {
                                           ),
                                         );
                                       }
-                                      if (far.currentState!.validate()&&school
-                                          .contains(E.schoolName)) {
+                                      if (far.currentState!.validate() &&
+                                          !school.contains(E.schoolName)) {
                                         var e = AlertDialog(
                                           scrollable: true,
                                           actions: [
@@ -282,7 +297,8 @@ class AddTeacher extends StatelessWidget {
                                                         scientificField: E
                                                             .scientificField
                                                             .toString(),
-                                                        idSchool: idSchool,
+                                                        idSchool: E
+                                                            .idSchoolForAddSchool,
                                                       );
 
                                                       E.nameController =

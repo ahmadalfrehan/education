@@ -26,6 +26,7 @@ class Edit extends StatelessWidget {
       school.add(s[i]['name']);
     }
   }
+
   Edit(this.index, this.list, {Key? key}) : super(key: key);
 
   var Far = GlobalKey<FormState>();
@@ -42,13 +43,14 @@ class Edit extends StatelessWidget {
           );
           Timer(
             const Duration(seconds: 1),
-            () => Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(
-                builder: (context) => HomeLayout(),
-              ),
-              (route) => false,
-            ),
+                () =>
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => HomeLayout(),
+                  ),
+                      (route) => false,
+                ),
           );
         }
       },
@@ -107,7 +109,10 @@ class Edit extends StatelessWidget {
                                   child: DropdownButton<String>(
                                     isExpanded: true,
                                     menuMaxHeight:
-                                        MediaQuery.of(context).size.height / 2,
+                                    MediaQuery
+                                        .of(context)
+                                        .size
+                                        .height / 2,
                                     alignment: Alignment.center,
                                     elevation: 15,
                                     borderRadius: const BorderRadius.all(
@@ -130,7 +135,7 @@ class Edit extends StatelessWidget {
                                       print(newValue);
                                       E.schoolName = Education.get(context)
                                           .changeStringV(E.schoolName,
-                                              newValue.toString());
+                                          newValue.toString());
                                     },
                                   ),
                                 ),
@@ -153,24 +158,24 @@ class Edit extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 10,right: 10),
+                      padding: const EdgeInsets.only(left: 10, right: 10),
                       child: Column(
                         children: [
-                      const SizedBox(height: 10),
-                      Planning(),
-                      const SizedBox(height: 10),
-                      Execution(),
-                      const SizedBox(height: 10),
-                      Calender(),
-                      const SizedBox(height: 10),
-                      CaHr(),
-                      const SizedBox(height: 10),
-                      PlanningField(),
-                      ScientificField(),
-                      const SizedBox(height: 10),
-                      EducationField(),
-                      const SizedBox(height: 10),
-],              ),
+                          const SizedBox(height: 10),
+                          Planning(),
+                          const SizedBox(height: 10),
+                          Execution(),
+                          const SizedBox(height: 10),
+                          Calender(),
+                          const SizedBox(height: 10),
+                          CaHr(),
+                          const SizedBox(height: 10),
+                          PlanningField(),
+                          ScientificField(),
+                          const SizedBox(height: 10),
+                          EducationField(),
+                          const SizedBox(height: 10),
+                        ],),
                     ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(

@@ -647,7 +647,16 @@ class Education extends Cubit<Educational> {
     emit(EducationalChangeVarState());
     return l;
   }
+
+
+  changeIntV(int l, int v) {
+    l = v;
+    emit(EducationalChangeVarState());
+    return l;
+  }
+
   String schoolName = 'اختر المدرسة';
+  int idSchoolForAddSchool = 0;
   String schoolNameEdit = 'اختر المدرسة';
   int idSchool = 1;
   int indeX = 0;
