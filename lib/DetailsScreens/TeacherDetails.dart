@@ -218,6 +218,23 @@ class TeacherDetails extends StatelessWidget {
                                     const SizedBox(
                                       width: 5,
                                     ),
+                                    Text(
+                                        'المجموع  : ' + list[index]['marks'].toString()),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              Container(
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.black),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                                child: Row(
+                                  children: [
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
                                     Text('التاريخ  : ' + list[index]['date']),
                                   ],
                                 ),

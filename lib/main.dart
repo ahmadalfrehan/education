@@ -8,10 +8,14 @@ import 'Cubit/cubit.dart';
 import 'Cubit/states.dart';
 import 'HomeLayout.dart';
 
-void main() async{
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Shard.initial();
-  isAllowedToShown = Shard.sharedprefrences?.getBool('isAllow');//government
+  isAllowedToShown = Shard.sharedprefrences?.getBool('isAllow'); //government
+  if (Shard.sharedprefrences?.getBool('homeScreenLikeME') != null) {
+    homeScreenLikeMe =
+        Shard.sharedprefrences?.getBool('homeScreenLikeME') as bool;
+  }
   debugPrint(Shard.sharedprefrences?.getString('government').toString());
   if (Shard.sharedprefrences?.getString('government') != null) {
     government = Shard.sharedprefrences?.getString('government') as String;
@@ -44,7 +48,7 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: Colors.teal,
             ),
-            home:  Directionality(
+            home: Directionality(
                 textDirection: TextDirection.rtl, child: LoginScreen()),
           );
         },

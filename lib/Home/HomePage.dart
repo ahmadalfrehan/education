@@ -60,7 +60,7 @@ class HomePage extends StatelessWidget {
               ),
               Directionality(
                 textDirection: TextDirection.rtl,
-                child: Padding(
+                child:homeScreenLikeMe? Padding(
                   padding: EdgeInsets.all(
                       MediaQuery.of(context).size.height >= 666 ? 10 : 0),
                   child: Column(
@@ -361,6 +361,36 @@ class HomePage extends StatelessWidget {
                                                             const SizedBox(
                                                               width: 5,
                                                             ),
+                                                            Text('المجموع : ' +
+                                                                Education.get(context)
+                                                                            .teachers[
+                                                                        index][
+                                                                    'marks'].toString()),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      const SizedBox(height: 4),
+                                                      Container(
+                                                        height: 50,
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width /
+                                                            1.2,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          border: Border.all(
+                                                              color:
+                                                                  Colors.black),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                        ),
+                                                        child: Row(
+                                                          children: [
+                                                            const SizedBox(
+                                                              width: 5,
+                                                            ),
                                                             Text('التاريخ : ' +
                                                                 Education.get(
                                                                             context)
@@ -576,11 +606,73 @@ class HomePage extends StatelessWidget {
                       ),
                     ],
                   ),
+                ):Padding(
+                  padding:  EdgeInsets.all(MediaQuery.of(context).size.height >= 666 ? 10 : 0),
+                  child: Column(
+                    ///crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 30),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: MaterialButton(
+                              color: const Color(0xFF0b4972),
+                              onPressed: () {
+                                Education.get(context).ChangeBottomNav(2);
+                              },
+                              height: 45,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(30)),
+                              child: const Text(
+                                'اضافة مدرسة',
+                                //textDirection: TextDirection.ltr,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 5),
+                      const SizedBox(height: 10),
+                      if (Education.get(context).schools.isNotEmpty)
+                        Row(
+                          children: [
+                            Expanded(
+                              child: MaterialButton(
+                                color: const Color(0xFF0b4972),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => AddTeacher(
+                                          e.indeX, Education.get(context).schools),
+                                    ),
+                                  );
+                                },
+                                height: 45,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30)),
+                                child: const Text(
+                                  'اضافة معلم',
+                                  //textDirection: TextDirection.ltr,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                    ],
+                  ),
                 ),
               ),
             ],
           ),
-          floatingActionButton: Padding(
+          floatingActionButton:homeScreenLikeMe? Padding(
             padding: const EdgeInsets.only(right: 10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -653,7 +745,7 @@ class HomePage extends StatelessWidget {
                   ),
               ],
             ),
-          ),
+          ):Container(),
         );
       },
     );

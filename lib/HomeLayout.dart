@@ -23,6 +23,89 @@ class HomeLayout extends StatelessWidget {
             return Directionality(
               textDirection: TextDirection.rtl,
               child: Scaffold(
+                drawer: Drawer(
+                  child: Column(
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        height: MediaQuery.of(context).size.height / 4,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFF0b4972),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              right: 20, top: 20, left: 0, bottom: 0),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width >= 400
+                                    ? 10
+                                    : 5,
+                              ),
+                              Image.asset('assets/logo.png', scale: 1.5),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  'الجمهورية العربية السورية \n وزارة التربية ',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize:
+                                        MediaQuery.of(context).size.width <= 350
+                                            ? 8
+                                            : 15,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      MaterialButton(
+                      elevation: 0,
+                        minWidth: double.infinity,
+                        color: Color(0xFF0b4972),
+                        onPressed: () async {
+                          if (homeScreenLikeMe == false) {
+                            await Shard.saveData(
+                                    key: 'homeScreenLikeME', value: true)
+                                .then((value) {
+                              homeScreenLikeMe =
+                                  c.changeBoolean(homeScreenLikeMe, true);
+                            });
+                          } else if (homeScreenLikeMe == true) {
+                            await Shard.saveData(
+                                    key: 'homeScreenLikeME', value: false)
+                                .then((value) {
+                              homeScreenLikeMe =
+                                  c.changeBoolean(homeScreenLikeMe, false);
+                            });
+                          }
+                        },
+                        child: const Text(
+                          'تغيير شكل الشاشة الرئيسية؟',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      MaterialButton(
+                        elevation: 0,
+                        minWidth: double.infinity,
+                        color: Color(0xFF0b4972),
+                        onPressed: () async {
+                        },
+                        child: const Text(
+                          'تغيير حجم الخط؟',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 appBar: AppBar(
                   elevation: 0.0,
                   titleSpacing: 0,

@@ -25,7 +25,7 @@ class Education extends Cubit<Educational> {
   static Education get(context) => BlocProvider.of(context);
   Database? database;
   int currrentIndex = 0;
-  List<String> titles = ['HomePage', 'Schools', 'Add School', 'Search', 'Sent'];
+  List<String> titles = ['Home Screen', 'Schools', 'Add School', 'Search', 'Sent'];
   List<Widget> list = [
     const HomePage(),
     SecondHomePage(),
@@ -70,15 +70,31 @@ class Education extends Cubit<Educational> {
   createDataBase() {
     openDatabase(
       'Ahmad.db',
-      version: 1,
+      version: 2,
       onConfigure: onConfigurE,
+      /*onUpgrade: (database,version,oldVersion)async{
+        print('database created');
+        database.execute(
+            'CREATE TABLE school (idSchool INTEGER PRIMARY KEY , name TEXT ,address TEXT , phone TEXT , manager TEXT , managerPhone TEXT , type TEXT,stage TEXT)');
+        database
+            .execute(
+            'CREATE TABLE teacher (idTeacher INTEGER PRIMARY KEY,name TEXT , phone TEXT,class TEXT,division TEXT,date TEXT,titleOfLesson TEXT,item TEXT,planning TEXT,execution TEXT,calender TEXT,cAhR TEXT,planningField,scientificField TEXT,educationalField TEXT,marks TEXT,idSchool INTEGER ,FOREIGN KEY (idSchool) REFERENCES school (idSchool)ON DELETE NO ACTION ON UPDATE NO ACTION)')
+            .then((value) {
+          print('tables created');
+        }).catchError(
+              (onError) {
+            emit(EducationalCreateErrorState());
+            print('the error happen when created database${onError}');
+          },
+        );
+      },*/
       onCreate: (database, version) async {
         print('database created');
         database.execute(
             'CREATE TABLE school (idSchool INTEGER PRIMARY KEY , name TEXT ,address TEXT , phone TEXT , manager TEXT , managerPhone TEXT , type TEXT,stage TEXT)');
         database
             .execute(
-                'CREATE TABLE teacher (idTeacher INTEGER PRIMARY KEY,name TEXT , phone TEXT,class TEXT,division TEXT,date TEXT,titleOfLesson TEXT,item TEXT,planning TEXT,execution TEXT,calender TEXT,cAhR TEXT,planningField,scientificField TEXT,educationalField TEXT,idSchool INTEGER ,FOREIGN KEY (idSchool) REFERENCES school (idSchool)ON DELETE NO ACTION ON UPDATE NO ACTION)')
+                'CREATE TABLE teacher (idTeacher INTEGER PRIMARY KEY,name TEXT , phone TEXT,class TEXT,division TEXT,date TEXT,titleOfLesson TEXT,item TEXT,planning TEXT,execution TEXT,calender TEXT,cAhR TEXT,planningField,scientificField TEXT,educationalField TEXT,marks INTEGER,idSchool INTEGER ,FOREIGN KEY (idSchool) REFERENCES school (idSchool)ON DELETE NO ACTION ON UPDATE NO ACTION)')
             .then((value) {
           print('tables created');
         }).catchError(
@@ -139,12 +155,13 @@ class Education extends Cubit<Educational> {
     required String planningField,
     required String scientificField,
     required String educationalField,
+    required int finalMarks,
     required int idSchool,
   }) async {
     await database!.transaction(
       (txn) => txn
           .rawInsert(
-              'INSERT INTO teacher (name, phone ,class ,division ,date ,titleOfLesson ,item ,planning ,execution ,calender ,cAhR ,planningField,scientificField ,educationalField,idSchool )VALUES("$name","$phone","$clas","$division","$date","$titleOfLesson","$item","$planning","$execution","$calender","$cAhR","$planningField","$scientificField","$educationalField","$idSchool")')
+              'INSERT INTO teacher (name, phone ,class ,division ,date ,titleOfLesson ,item ,planning ,execution ,calender ,cAhR ,planningField,scientificField ,educationalField,marks,idSchool )VALUES("$name","$phone","$clas","$division","$date","$titleOfLesson","$item","$planning","$execution","$calender","$cAhR","$planningField","$scientificField","$educationalField","$finalMarks","$idSchool")')
           .then((value) {
         emit(EducationalAddTeacherSuccessState(value.toString()));
         print('$value inserted successfully');
@@ -283,11 +300,12 @@ class Education extends Cubit<Educational> {
     required String planningField,
     required String scientificField,
     required String educationalField,
+    required int finalMarks,
     required int idTeacher,
   }) {
     //name, phone ,class ,division ,date ,titleOfLesson ,item ,planning ,execution ,calender ,cAhR ,planningField,scientificField ,educationalField,idSchool )
     database?.rawUpdate(
-      'UPDATE teacher SET name = ?,phone = ? ,class = ? ,division = ? , date = ?,titleOfLesson = ?,item = ?,planning =? ,execution =? ,calender =? ,cAhR =? ,planningField =?,scientificField =? ,educationalField =?  WHERE idTeacher = ?',
+      'UPDATE teacher SET name = ?,phone = ? ,class = ? ,division = ? , date = ?,titleOfLesson = ?,item = ?,planning =? ,execution =? ,calender =? ,cAhR =? ,planningField =?,scientificField =? ,educationalField =?,marks = ? WHERE idTeacher = ?',
       [
         name,
         phone,
@@ -303,6 +321,7 @@ class Education extends Cubit<Educational> {
         planningField,
         scientificField,
         educationalField,
+        finalMarks,
         idTeacher
       ],
     ).then((value) {
@@ -483,6 +502,71 @@ class Education extends Cubit<Educational> {
   String? planningField;
   String? scientificField;
 
+  int? finalMarksPlanning;
+  int? finalMarksExecution;
+  int? finalMarksCalender;
+  int? finalMarksCahR;
+  int? finalMarksPlanningField;
+  int? finalMarksScientificField;
+  int? finalMarksEducationField;
+  int? finalMarksCollected;
+
+  plusAndCollectMarks() {
+    try {
+      finalMarksPlanning = int.parse(mark1) +
+          int.parse(mark2) +
+          int.parse(mark3) +
+          int.parse(mark4) +
+          int.parse(mark5) +
+          int.parse(mark6);
+      finalMarksExecution = int.parse(markExecution1) +
+          int.parse(markExecution2) +
+          int.parse(markExecution3) +
+          int.parse(markExecution4) +
+          int.parse(markExecution5) +
+          int.parse(markExecution6);
+      finalMarksCalender = int.parse(markCalender1) +
+          int.parse(markCalender2) +
+          int.parse(markCalender3) +
+          int.parse(markCalender4);
+      finalMarksCahR = int.parse(markCaHr1) +
+          int.parse(markCaHr2) +
+          int.parse(markCaHr3) +
+          int.parse(markCaHr4) +
+          int.parse(markCaHr5) +
+          int.parse(markCaHr6) +
+          int.parse(markCaHr7) +
+          int.parse(markCaHr8) +
+          int.parse(markCaHr9);
+      finalMarksPlanningField = int.parse(markPlanningField1) +
+          int.parse(markPlanningField2) +
+          int.parse(markPlanningField3);
+      finalMarksScientificField = int.parse(markScientificField1) +
+          int.parse(markScientificField2) +
+          int.parse(markScientificField3);
+      finalMarksEducationField = int.parse(markEducationField1) +
+          int.parse(markEducationField2) +
+          int.parse(markEducationField3) +
+          int.parse(markEducationField4) +
+          int.parse(markEducationField5) +
+          int.parse(markEducationField6) +
+          int.parse(markEducationField7) +
+          int.parse(markEducationField8) +
+          int.parse(markEducationField9);
+      finalMarksCollected = finalMarksPlanning! +
+          finalMarksExecution! +
+          finalMarksCalender! +
+          finalMarksCahR! +
+          finalMarksPlanningField! +
+          finalMarksScientificField! +
+          finalMarksEducationField!;
+      emit(EducationalCollectMarksSuccessState());
+    } catch (e) {
+      emit(EducationalCollectMarksErrorState());
+      print(e);
+    }
+  }
+
   saveAndInitialiseVariables() {
     cAhR = cAhR1 +
         markCaHr1 +
@@ -648,7 +732,6 @@ class Education extends Cubit<Educational> {
     return l;
   }
 
-
   changeIntV(int l, int v) {
     l = v;
     emit(EducationalChangeVarState());
@@ -729,10 +812,17 @@ class Education extends Cubit<Educational> {
   ];
 
   List<String> school = [];
-  selectSchools(List s){
+
+  selectSchools(List s) {
     school.clear();
-    for(int i=0;i<s.length;i++){
+    for (int i = 0; i < s.length; i++) {
       school = s[i]['name'];
     }
   }
+
+  int idTeacherForEdit = 0;
+  bool isAllowedToReBuild = true;
+  bool isAllowedToReBuildWhenAddTeacher = true;
+  bool isAllowedToReBuildWhenEditSchool = true;
+  bool isAllowedToUpdate = false;
 }

@@ -6,6 +6,7 @@ import '../Cubit/states.dart';
 import '../HomeLayout.dart';
 import '../Search/Search.dart';
 import '../constant.dart';
+import '../main.dart';
 import 'AddTeacherMore/EducationField.dart';
 import 'AddTeacherMore/Planning.dart';
 import 'AddTeacherMore/PlanningField.dart';
@@ -43,21 +44,31 @@ class Edit extends StatelessWidget {
           );
           Timer(
             const Duration(seconds: 1),
-                () =>
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => HomeLayout(),
-                  ),
-                      (route) => false,
-                ),
+            () => Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomeLayout(),
+              ),
+              (route) => false,
+            ),
           );
+          main();
         }
       },
       builder: (context, state) {
         var E = Education.get(context);
         var c = Education.get(context);
         E.itemController.text = item;
+        if (E.isAllowedToReBuild) {
+          E.nameController.text = list[index]['name'];
+          E.classController.text = list[index]['class'];
+          E.divisionController.text = list[index]['division'];
+          E.dateController.text = list[index]['date'];
+          E.titleOfLessonController.text = list[index]['titleOfLesson'];
+        }
+        E.isAllowedToReBuild = false;
+        E.isAllowedToUpdate = true;
+        E.idTeacherForEdit = list[index]['idTeacher'];
         selectSchools(E.schools);
         return Scaffold(
           backgroundColor: const Color(0xFFECF0F3),
@@ -101,18 +112,20 @@ class Edit extends StatelessWidget {
                           TextFormF("تعديل الاسم ", Icons.person,
                               c.nameController, c, list[index]['name']),
                           Padding(
-                            padding: const EdgeInsets.fromLTRB(30, 10, 30, 10),
+                            padding: const EdgeInsets.fromLTRB(
+                              30,
+                              10,
+                              30,
+                              10,
+                            ),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Expanded(
-                                  child: DropdownButton<String>(
+                                  child: DropdownButton(
                                     isExpanded: true,
                                     menuMaxHeight:
-                                    MediaQuery
-                                        .of(context)
-                                        .size
-                                        .height / 2,
+                                        MediaQuery.of(context).size.height / 2,
                                     alignment: Alignment.center,
                                     elevation: 15,
                                     borderRadius: const BorderRadius.all(
@@ -125,17 +138,28 @@ class Edit extends StatelessWidget {
                                           fontSize: 18,
                                           fontWeight: FontWeight.w600),
                                     ),
-                                    items: school.map((String value) {
-                                      return DropdownMenuItem(
-                                        value: value,
-                                        child: Text(value.toString()),
+                                    items: E.schools.map((map) {
+                                      return DropdownMenuItem<String>(
+                                        onTap: () {
+                                          E.schoolName = Education.get(context)
+                                              .changeStringV(
+                                            E.schoolName,
+                                            map['name'].toString(),
+                                          );
+                                        },
+                                        value: map['idSchool'].toString(),
+                                        child: Text(map['name'].toString()),
                                       );
                                     }).toList(),
                                     onChanged: (newValue) async {
                                       print(newValue);
-                                      E.schoolName = Education.get(context)
-                                          .changeStringV(E.schoolName,
-                                          newValue.toString());
+                                      E.idSchoolForAddSchool =
+                                          Education.get(context).changeIntV(
+                                        E.idSchoolForAddSchool,
+                                        int.parse(
+                                          newValue.toString(),
+                                        ),
+                                      );
                                     },
                                   ),
                                 ),
@@ -157,128 +181,55 @@ class Edit extends StatelessWidget {
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 10),
-                          Planning(),
-                          const SizedBox(height: 10),
-                          Execution(),
-                          const SizedBox(height: 10),
-                          Calender(),
-                          const SizedBox(height: 10),
-                          CaHr(),
-                          const SizedBox(height: 10),
-                          PlanningField(),
-                          ScientificField(),
-                          const SizedBox(height: 10),
-                          EducationField(),
-                          const SizedBox(height: 10),
-                        ],),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Divider(color: Colors.black),
                     ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        side: BorderSide(
-                          color: c.Color1,
-                          width: 2,
-                        ),
-                        elevation: 0.0,
-                        primary: const Color(0xFF0b4972),
-                        fixedSize: const Size(350, 40),
-                        shape: const StadiumBorder(),
-                      ),
-                      onPressed: () {
-                        if (!school.contains(E.schoolName)) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text('اختر المدرسة'),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: const Color(0xFF0b4972),
                             ),
-                          );
-                        }
-                        if (Far.currentState!.validate() &&
-                            school.contains(E.schoolName)) {
-                          c.saveAndInitialiseVariables();
-                          c.updateInTeacherTableDataBase(
-                              name: c.nameController.text,
-                              phone: E.schoolName,
-                              clas: c.divisionController.text,
-                              division: c.classController.text,
-                              date: c.dateController.text,
-                              titleOfLesson: c.titleOfLessonController.text,
-                              item: c.itemController.text,
-                              cAhR: E.cAhR.toString(),
-                              calender: E.calender.toString(),
-                              educationalField: E.educationField.toString(),
-                              execution: E.execution.toString(),
-                              planning: E.planning.toString(),
-                              planningField: E.planningField.toString(),
-                              scientificField: E.scientificField.toString(),
-                              idTeacher: list[index]['idTeacher']);
-                        }
-                        E.nameController = TextEditingController();
-                        E.schoolName = 'اختر المدرسة';
-                        E.classController = TextEditingController();
-                        E.dateController = TextEditingController();
-                        E.divisionController = TextEditingController();
-                        E.itemController = TextEditingController();
-                        E.titleOfLessonController = TextEditingController();
-
-                        E.mark1 = '';
-                        E.mark2 = '';
-                        E.mark3 = '';
-                        E.mark4 = '';
-                        E.mark5 = '';
-                        E.mark6 = '';
-
-                        E.markExecution1 = '';
-                        E.markExecution2 = '';
-                        E.markExecution3 = '';
-                        E.markExecution4 = '';
-                        E.markExecution5 = '';
-                        E.markExecution6 = '';
-
-                        E.markCalender1 = '';
-                        E.markCalender2 = '';
-                        E.markCalender3 = '';
-                        E.markCalender4 = '';
-
-                        E.markCaHr1 = '';
-                        E.markCaHr2 = '';
-                        E.markCaHr3 = '';
-                        E.markCaHr4 = '';
-                        E.markCaHr5 = '';
-                        E.markCaHr6 = '';
-                        E.markCaHr7 = '';
-                        E.markCaHr8 = '';
-                        E.markCaHr9 = '';
-
-                        E.markPlanningField1 = '';
-                        E.markPlanningField2 = '';
-                        E.markPlanningField3 = '';
-
-                        E.markScientificField1 = '';
-                        E.markScientificField2 = '';
-                        E.markScientificField3 = '';
-
-                        E.markEducationField1 = '';
-                        E.markEducationField2 = '';
-                        E.markEducationField3 = '';
-                        E.markEducationField4 = '';
-                        E.markEducationField5 = '';
-                        E.markEducationField6 = '';
-                        E.markEducationField7 = '';
-                        E.markEducationField8 = '';
-                        E.markEducationField9 = '';
-                      },
-                      child: const Text(
-                        ' Edit ?',
-                        textDirection: TextDirection.ltr,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
+                            onPressed: () {
+                              if (E.idSchoolForAddSchool == 0) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('اختر المدرسة'),
+                                  ),
+                                );
+                              }
+                              if (Far.currentState!.validate() &&
+                                  E.idSchoolForAddSchool != 0) {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Planning(),
+                                  ),
+                                );
+                              }
+                            },
+                            child: const Text('NEXT',
+                                style: TextStyle(color: Color(0xFFECF0F3))),
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: const Color(0xB10b4972),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text(
+                              'BACK',
+                              style: TextStyle(
+                                color: Color(0xFFECF0F3),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
@@ -341,9 +292,7 @@ class Edit extends StatelessWidget {
             borderRadius: BorderRadius.circular(20.0),
             borderSide: BorderSide(color: c.Color1, width: 2.0),
           ),
-          enabled: lab == 'تعديل المادة '
-              ? false
-              : true,
+          enabled: lab == 'تعديل المادة ' ? false : true,
           fillColor: Colors.white,
           filled: true,
           labelText: lab,

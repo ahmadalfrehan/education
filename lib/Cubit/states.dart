@@ -65,3 +65,7 @@ class EducationalChangeIndexState extends Educational {}
 class EducationalChangeVarState extends Educational {}
 
 class EducationalChangeVarStateForCalender extends Educational {}
+
+
+class EducationalCollectMarksSuccessState extends Educational {}
+class EducationalCollectMarksErrorState extends Educational {}

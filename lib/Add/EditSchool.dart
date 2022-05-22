@@ -5,6 +5,7 @@ import '../Cubit/cubit.dart';
 import '../Cubit/states.dart';
 import '../HomeLayout.dart';
 import '../Search/Search.dart';
+import '../main.dart';
 
 class EditSchool extends StatelessWidget {
   var index;
@@ -33,10 +34,19 @@ class EditSchool extends StatelessWidget {
                   (route) => false,
             ),
           );
+          main();
         }
       },
       builder: (context, state) {
         var c = Education.get(context);
+        if(c.isAllowedToReBuildWhenEditSchool) {
+          c.nameEditSchoolController.text = list[index]['name'];
+          c.addressEditSchoolController.text = list[index]['address'];
+          c.phoneEditSchoolController.text = list[index]['phone'];
+          c.managerEditSchoolController.text = list[index]['manager'];
+          c.managerPhoneEditSchoolController.text = list[index]['managerPhone'];
+        }
+        c.isAllowedToReBuildWhenEditSchool = false;
         return Scaffold(
           backgroundColor: const Color(0xFFECF0F3),
           appBar: AppBar(
@@ -217,6 +227,7 @@ class EditSchool extends StatelessWidget {
                                   c.managerPhoneEditSchoolController.text,
                               idSchool: list[index]['idSchool'],
                             );
+                            c.isAllowedToReBuildWhenEditSchool= true;
                           }
                         }
                       },
