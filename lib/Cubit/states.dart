@@ -55,6 +55,7 @@ class EducationalChangeBottomNavSuccessState extends Educational {}
 class EducationalDeleteLoadingState extends Educational {}
 
 class EducationalDeleteSuccessState extends Educational {}
+class EducationalDeleteSchoolSuccessState extends Educational {}
 
 class EducationalDeleteErrorState extends Educational {}
 

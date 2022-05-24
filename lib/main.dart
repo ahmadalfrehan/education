@@ -3,7 +3,6 @@ import 'package:education_evaluation/login/login_screen.dart';
 import 'package:education_evaluation/sharedHELper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'Cubit/cubit.dart';
 import 'Cubit/states.dart';
 import 'HomeLayout.dart';
@@ -11,7 +10,9 @@ import 'HomeLayout.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Shard.initial();
-  isAllowedToShown = Shard.sharedprefrences?.getBool('isAllow'); //government
+  if(Shard.sharedprefrences?.getBool('isAllow')!=null) {
+    isAllowedToShown = Shard.sharedprefrences?.getBool('isAllow') as bool;
+  }
   if (Shard.sharedprefrences?.getBool('homeScreenLikeME') != null) {
     homeScreenLikeMe =
         Shard.sharedprefrences?.getBool('homeScreenLikeME') as bool;
@@ -49,7 +50,7 @@ class MyApp extends StatelessWidget {
               primarySwatch: Colors.teal,
             ),
             home: Directionality(
-                textDirection: TextDirection.rtl, child: LoginScreen()),
+                textDirection: TextDirection.rtl, child: HomeLayout()),
           );
         },
       ),

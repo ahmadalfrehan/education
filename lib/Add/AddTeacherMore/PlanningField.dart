@@ -1,4 +1,4 @@
-import 'package:education_evaluation/Add/AddTeacherMore/ScientificField.dart';
+/*import 'package:education_evaluation/Add/AddTeacherMore/ScientificField.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -257,3 +257,4 @@ class PlanningField extends StatelessWidget {
     );
   }
 }
+*/

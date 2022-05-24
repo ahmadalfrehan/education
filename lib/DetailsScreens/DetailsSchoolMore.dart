@@ -33,12 +33,12 @@ class DetailsSchoolMore extends StatelessWidget {
           );
           Timer(
             const Duration(seconds: 1),
-                () => Navigator.pushAndRemoveUntil(
+            () => Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) =>  HomeLayout(),
+                builder: (context) => HomeLayout(),
               ),
-                  (route) => false,
+              (route) => false,
             ),
           );
         }
@@ -50,12 +50,12 @@ class DetailsSchoolMore extends StatelessWidget {
           );
           Timer(
             const Duration(seconds: 1),
-                () => Navigator.pushAndRemoveUntil(
+            () => Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) =>  HomeLayout(),
+                builder: (context) => HomeLayout(),
               ),
-                  (route) => false,
+              (route) => false,
             ),
           );
         }
@@ -111,8 +111,7 @@ class DetailsSchoolMore extends StatelessWidget {
               child: Card(
                 elevation: 30,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)
-                ),
+                    borderRadius: BorderRadius.circular(20)),
                 child: Container(
                   height: MediaQuery.of(context).size.height / 1.2,
                   width: MediaQuery.of(context).size.width,
@@ -140,7 +139,6 @@ class DetailsSchoolMore extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 10),
-
                           Container(
                             height: 50,
                             decoration: BoxDecoration(
@@ -159,22 +157,24 @@ class DetailsSchoolMore extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 10),
-
                           Container(
                             width: double.infinity,
                             decoration: BoxDecoration(
                               border: Border.all(color: Colors.black),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child: Text(
-                              ' العنوان  :  \n' +
-                                  list[index]['address'],
-                              style: TextStyle(
-                                fontSize:
-                                    MediaQuery.of(context).textScaleFactor *
-                                        15,
-                                color: const Color(0xFF000000),
-                              ),
+                            child: Wrap(
+                              children: [
+                                Text(
+                                  ' العنوان  :  ' + list[index]['address'],
+                                  style: TextStyle(
+                                    fontSize:
+                                        MediaQuery.of(context).textScaleFactor *
+                                            15,
+                                    color: const Color(0xFF000000),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                           const SizedBox(height: 10),
@@ -222,7 +222,8 @@ class DetailsSchoolMore extends StatelessWidget {
                           GestureDetector(
                             onTap: () async {
                               print('phone');
-                              await c.makePhoneCall(list[index]['managerPhone']);
+                              await c
+                                  .makePhoneCall(list[index]['managerPhone']);
                             },
                             child: Container(
                               height: 50,
@@ -245,23 +246,31 @@ class DetailsSchoolMore extends StatelessWidget {
                           ),
                           const SizedBox(height: 10),
                           Container(
+                            height: 50,
                             width: double.infinity,
                             decoration: BoxDecoration(
                               border: Border.all(color: Colors.black),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child:
-                                Text(' المرحلة  : \n' + list[index]['stage']),
+                            child: Row(
+                              children: [
+                                Text(' المرحلة  : ' + list[index]['stage']),
+                              ],
+                            ),
                           ),
                           const SizedBox(height: 10),
                           Container(
+                            height: 50,
                             width: double.infinity,
                             decoration: BoxDecoration(
                               border: Border.all(color: Colors.black),
                               borderRadius: BorderRadius.circular(10),
                             ),
-                            child:
-                            Text(' النوع  : \n' + list[index]['type']),
+                            child: Row(
+                              children: [
+                                Text(' النوع  : ' + list[index]['type']),
+                              ],
+                            ),
                           ),
                         ],
                       ),

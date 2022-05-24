@@ -25,32 +25,19 @@ class Education extends Cubit<Educational> {
   static Education get(context) => BlocProvider.of(context);
   Database? database;
   int currrentIndex = 0;
-  List<String> titles = ['Home Screen', 'Schools', 'Add School', 'Search', 'Sent'];
+  List<String> titles = [
+    'Home Screen',
+    'Schools',
+    'Add School',
+    'Search',
+    'Sent'
+  ];
   List<Widget> list = [
     const HomePage(),
     SecondHomePage(),
     Add_School(),
     const SearcH(),
     const Archive()
-  ];
-  List<String> titlesAdds = [
-    'Planning',
-    'Execution',
-    'CaHr',
-    'PlanningField',
-    'EducationField',
-    'ScientificField',
-    'Calender',
-  ];
-  List<Widget> screensAdds = [
-    Add_FirstTeacherInfo(),
-    Planning(),
-    Execution(),
-    CaHr(),
-    PlanningField(),
-    EducationField(),
-    ScientificField(),
-    Calender(),
   ];
 
   void ChangeBottomNav(int index) {
@@ -67,34 +54,23 @@ class Education extends Cubit<Educational> {
     await database.execute('PRAGMA foreign_keys = ON');
   }
 
+// database.execute(
+//             'CREATE TABLE school (idSchool INTEGER PRIMARY KEY , name TEXT ,address TEXT , phone TEXT , manager TEXT , managerPhone TEXT , type TEXT,stage TEXT)');
+//
   createDataBase() {
     openDatabase(
       'Ahmad.db',
-      version: 2,
+      version: 1,
       onConfigure: onConfigurE,
-      /*onUpgrade: (database,version,oldVersion)async{
-        print('database created');
-        database.execute(
-            'CREATE TABLE school (idSchool INTEGER PRIMARY KEY , name TEXT ,address TEXT , phone TEXT , manager TEXT , managerPhone TEXT , type TEXT,stage TEXT)');
-        database
-            .execute(
-            'CREATE TABLE teacher (idTeacher INTEGER PRIMARY KEY,name TEXT , phone TEXT,class TEXT,division TEXT,date TEXT,titleOfLesson TEXT,item TEXT,planning TEXT,execution TEXT,calender TEXT,cAhR TEXT,planningField,scientificField TEXT,educationalField TEXT,marks TEXT,idSchool INTEGER ,FOREIGN KEY (idSchool) REFERENCES school (idSchool)ON DELETE NO ACTION ON UPDATE NO ACTION)')
-            .then((value) {
-          print('tables created');
-        }).catchError(
-              (onError) {
-            emit(EducationalCreateErrorState());
-            print('the error happen when created database${onError}');
-          },
-        );
-      },*/
       onCreate: (database, version) async {
         print('database created');
         database.execute(
             'CREATE TABLE school (idSchool INTEGER PRIMARY KEY , name TEXT ,address TEXT , phone TEXT , manager TEXT , managerPhone TEXT , type TEXT,stage TEXT)');
         database
             .execute(
-                'CREATE TABLE teacher (idTeacher INTEGER PRIMARY KEY,name TEXT , phone TEXT,class TEXT,division TEXT,date TEXT,titleOfLesson TEXT,item TEXT,planning TEXT,execution TEXT,calender TEXT,cAhR TEXT,planningField,scientificField TEXT,educationalField TEXT,marks INTEGER,idSchool INTEGER ,FOREIGN KEY (idSchool) REFERENCES school (idSchool)ON DELETE NO ACTION ON UPDATE NO ACTION)')
+                'CREATE TABLE teacher (idTeacher INTEGER PRIMARY KEY,name TEXT , phone TEXT,class TEXT,division TEXT,date TEXT,titleOfLesson TEXT,item TEXT,'
+                'planning TEXT,execution TEXT,calender TEXT,cAhR TEXT,'
+                'marks INTEGER,idSchool INTEGER ,FOREIGN KEY (idSchool) REFERENCES school (idSchool)ON DELETE CASCADE)')
             .then((value) {
           print('tables created');
         }).catchError(
@@ -152,16 +128,16 @@ class Education extends Cubit<Educational> {
     required String execution,
     required String calender,
     required String cAhR,
-    required String planningField,
-    required String scientificField,
-    required String educationalField,
     required int finalMarks,
     required int idSchool,
   }) async {
     await database!.transaction(
       (txn) => txn
           .rawInsert(
-              'INSERT INTO teacher (name, phone ,class ,division ,date ,titleOfLesson ,item ,planning ,execution ,calender ,cAhR ,planningField,scientificField ,educationalField,marks,idSchool )VALUES("$name","$phone","$clas","$division","$date","$titleOfLesson","$item","$planning","$execution","$calender","$cAhR","$planningField","$scientificField","$educationalField","$finalMarks","$idSchool")')
+              'INSERT INTO teacher (name, phone ,class ,division ,date ,titleOfLesson ,item ,planning ,execution ,calender ,cAhR ,'
+              'marks,idSchool )'
+              'VALUES("$name","$phone","$clas","$division","$date","$titleOfLesson","$item","$planning","$execution","$calender","$cAhR",'
+              '"$finalMarks","$idSchool")')
           .then((value) {
         emit(EducationalAddTeacherSuccessState(value.toString()));
         print('$value inserted successfully');
@@ -200,12 +176,12 @@ class Education extends Cubit<Educational> {
   deleteSchoolTableFromDataBase({required int id}) async {
     await database!
         .rawDelete('DELETE FROM School WHERE idSchool=?', [id]).then((value) {
-      emit(EducationalDeleteSuccessState());
-      schools.clear();
-      teachers.clear();
+      emit(EducationalDeleteSchoolSuccessState());
+      //schools.clear();
+     // teachers.clear();
       getDataFromDatabase(database);
       getDataFromDatabaseWhereTableIsTeacher(database);
-      main();
+      //main();
     });
   }
 
@@ -297,15 +273,14 @@ class Education extends Cubit<Educational> {
     required String execution,
     required String calender,
     required String cAhR,
-    required String planningField,
-    required String scientificField,
-    required String educationalField,
     required int finalMarks,
     required int idTeacher,
+    required int idSchool,
   }) {
     //name, phone ,class ,division ,date ,titleOfLesson ,item ,planning ,execution ,calender ,cAhR ,planningField,scientificField ,educationalField,idSchool )
     database?.rawUpdate(
-      'UPDATE teacher SET name = ?,phone = ? ,class = ? ,division = ? , date = ?,titleOfLesson = ?,item = ?,planning =? ,execution =? ,calender =? ,cAhR =? ,planningField =?,scientificField =? ,educationalField =?,marks = ? WHERE idTeacher = ?',
+      'UPDATE teacher SET name = ?,phone = ? ,class = ? ,division = ? , date = ?,titleOfLesson = ?,item = ?,planning =? ,execution =? ,calender =? ,cAhR =? '
+      ',marks = ?,idSchool = ? WHERE idTeacher = ?',
       [
         name,
         phone,
@@ -318,10 +293,8 @@ class Education extends Cubit<Educational> {
         execution,
         calender,
         cAhR,
-        planningField,
-        scientificField,
-        educationalField,
         finalMarks,
+        idSchool,
         idTeacher
       ],
     ).then((value) {
@@ -333,7 +306,7 @@ class Education extends Cubit<Educational> {
     });
   }
 
-  UpdateStatus({
+  updateStatus({
     required String status,
     required int id,
   }) async {
@@ -420,7 +393,8 @@ class Education extends Cubit<Educational> {
   String cAhR3 =
       "3- يوزع الاهتمام بين المتعلمين ويتعامل بمحبة (بديمقراطية وانسانية)";
   String cAhr4 = "4- يضبط الصف بطريقة إيجابية";
-  String cAhr5 = "5- يلتزم مواعيد العمل والبرامج الدرسي.";
+
+  /*String cAhr5 = "5- يلتزم مواعيد العمل والبرامج الدرسي.";
   String cAhr6 =
       "6- يحافظ على علاقة تربوية صحيحة مع الإدارة والزملاء والاولياء أمور والمجتمع المحلي";
   String cAhr7 = "7- يتمتع بالثقافة الشخصية ويقدم مبادرات إبداعية.";
@@ -428,18 +402,19 @@ class Education extends Cubit<Educational> {
       "8-يتعامل بالامانة والاتزان الانفعالي يتقبل النقد والتوجيه ويتحمل ضغط العمل";
   String cAhr9 =
       "9- يتعامل بديمقراطية وإنسانية مع المتعلمين بما ينمي الشخصية المتكاملة";
-
+*/
   String markCaHr1 = '';
   String markCaHr2 = '';
   String markCaHr3 = '';
   String markCaHr4 = '';
-  String markCaHr5 = '';
+
+  /*String markCaHr5 = '';
   String markCaHr6 = '';
   String markCaHr7 = '';
   String markCaHr8 = '';
   String markCaHr9 = '';
-
-  String planningField1 =
+*/
+  /*String planningField1 =
       "1- يشارك مع مجلس المادة في المدرسة في وضع خطة سنوية لتنفيذ المنهاج بعناصره الأساسية.";
   String planningField2 =
       "2- يخطط لتنفيذ الأنشطة اللاصفية (معارض- مسابقات- مشروعات - أبحاث مبادرات)";
@@ -486,7 +461,7 @@ class Education extends Cubit<Educational> {
   String markEducationField7 = '';
   String markEducationField8 = '';
   String markEducationField9 = '';
-
+*/
   String? name;
   String? phone;
   String? clas;
@@ -496,19 +471,22 @@ class Education extends Cubit<Educational> {
   String? item;
   String? cAhR;
   String? calender;
-  String? educationField;
+
+  //String? educationField;
   String? execution;
   String? planning;
-  String? planningField;
-  String? scientificField;
+
+//  String? planningField;
+  //String? scientificField;
 
   int? finalMarksPlanning;
   int? finalMarksExecution;
   int? finalMarksCalender;
   int? finalMarksCahR;
-  int? finalMarksPlanningField;
-  int? finalMarksScientificField;
-  int? finalMarksEducationField;
+
+  // int? finalMarksPlanningField;
+//  int? finalMarksScientificField;
+  //int? finalMarksEducationField;
   int? finalMarksCollected;
 
   plusAndCollectMarks() {
@@ -532,13 +510,8 @@ class Education extends Cubit<Educational> {
       finalMarksCahR = int.parse(markCaHr1) +
           int.parse(markCaHr2) +
           int.parse(markCaHr3) +
-          int.parse(markCaHr4) +
-          int.parse(markCaHr5) +
-          int.parse(markCaHr6) +
-          int.parse(markCaHr7) +
-          int.parse(markCaHr8) +
-          int.parse(markCaHr9);
-      finalMarksPlanningField = int.parse(markPlanningField1) +
+          int.parse(markCaHr4);
+      /*finalMarksPlanningField = int.parse(markPlanningField1) +
           int.parse(markPlanningField2) +
           int.parse(markPlanningField3);
       finalMarksScientificField = int.parse(markScientificField1) +
@@ -552,14 +525,11 @@ class Education extends Cubit<Educational> {
           int.parse(markEducationField6) +
           int.parse(markEducationField7) +
           int.parse(markEducationField8) +
-          int.parse(markEducationField9);
+          int.parse(markEducationField9);*/
       finalMarksCollected = finalMarksPlanning! +
           finalMarksExecution! +
           finalMarksCalender! +
-          finalMarksCahR! +
-          finalMarksPlanningField! +
-          finalMarksScientificField! +
-          finalMarksEducationField!;
+          finalMarksCahR!;
       emit(EducationalCollectMarksSuccessState());
     } catch (e) {
       emit(EducationalCollectMarksErrorState());
@@ -579,21 +549,6 @@ class Education extends Cubit<Educational> {
         "\n" +
         cAhr4 +
         markCaHr4 +
-        "\n" +
-        cAhr5 +
-        markCaHr5 +
-        "\n" +
-        cAhr6 +
-        markCaHr6 +
-        "\n" +
-        cAhr7 +
-        markCaHr7 +
-        "\n" +
-        cAhr8 +
-        markCaHr8 +
-        "\n" +
-        cAhr9 +
-        markCaHr9 +
         "\n";
     calender = calender1 +
         markCalender1 +
@@ -606,42 +561,6 @@ class Education extends Cubit<Educational> {
         "\n" +
         calender4 +
         markCalender4 +
-        "\n";
-    educationField = education1 +
-        markEducationField1 +
-        "\n" +
-        education2 +
-        markEducationField2 +
-        "\n" +
-        education3 +
-        markEducationField3 +
-        "\n" +
-        education4 +
-        markEducationField4 +
-        "\n" +
-        education5 +
-        markEducationField5 +
-        "\n" +
-        education6 +
-        markEducationField6 +
-        "\n" +
-        education7 +
-        markEducationField7 +
-        "\n" +
-        education8 +
-        markEducationField8 +
-        "\n" +
-        education9 +
-        markEducationField9 +
-        "\n";
-    planningField = planningField1 +
-        markPlanningField1 +
-        "\n" +
-        planningField2 +
-        markPlanningField2 +
-        "\n" +
-        planningField3 +
-        markPlanningField3 +
         "\n";
     execution = executions1 +
         markExecution1 +
@@ -679,15 +598,6 @@ class Education extends Cubit<Educational> {
         s6 +
         mark6 +
         "\n";
-    scientificField = scientificField1 +
-        markScientificField1 +
-        "\n" +
-        scientificField2 +
-        markScientificField2 +
-        "\n" +
-        scientificField3 +
-        markScientificField3 +
-        "\n";
   }
 
   var itemController = TextEditingController();
@@ -698,6 +608,15 @@ class Education extends Cubit<Educational> {
   var dateController = TextEditingController();
   var titleOfLessonController = TextEditingController();
   var itemsController = TextEditingController();
+
+  var itemEditController = TextEditingController();
+  var nameEditController = TextEditingController();
+  var phoneEditController = TextEditingController();
+  var classEditController = TextEditingController();
+  var divisionEditController = TextEditingController();
+  var dateEditController = TextEditingController();
+  var titleOfLessonEditController = TextEditingController();
+  var itemsEditController = TextEditingController();
 
   var nameEditSchoolController = TextEditingController();
   var phoneEditSchoolController = TextEditingController();
@@ -810,9 +729,12 @@ class Education extends Cubit<Educational> {
     'ذكور فقط',
     'اناث فقط',
   ];
+  double fontSize = 20;
+  List<double> fontSized = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
 
   List<String> school = [];
 
+  bool t = true;
   selectSchools(List s) {
     school.clear();
     for (int i = 0; i < s.length; i++) {

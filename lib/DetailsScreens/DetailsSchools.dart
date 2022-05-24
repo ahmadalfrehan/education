@@ -35,10 +35,21 @@ class Details extends StatelessWidget {
             () => Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                builder: (context) =>  HomeLayout(),
+                builder: (context) => HomeLayout(),
               ),
               (route) => false,
             ),
+          );
+        }
+        if (state is EducationalDeleteSchoolSuccessState) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('successfully deleted the item'),
+            ),
+          );
+          Timer(
+            const Duration(seconds: 1),
+            () => Navigator.of(context).pop(),
           );
         }
         if (state is EducationalDeleteSuccessState) {
@@ -67,6 +78,68 @@ class Details extends StatelessWidget {
                 },
                 icon: const Icon(
                   Icons.edit,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  var r = AlertDialog(
+                    actions: [
+                      MaterialButton(
+                        color: const Color(0xFF0b4972),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text(
+                          'cancel',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ],
+                    //scrollable: true,
+                    title: const Text(
+                      'هل حقا تريد حذف هذه المدرسة ؟ سيؤدي ذلك الى حذف كل المعلمين الذين ينتمون اليها ايضا ! :',
+                      textDirection: TextDirection.rtl,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15,
+                      ),
+                    ),
+                    shape: BeveledRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    content: SizedBox(
+                      height: MediaQuery.of(context).size.height / 8,
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Divider(),
+                          MaterialButton(
+                            color: Colors.red,
+                            minWidth: double.infinity,
+                            onPressed: () {
+                              c.deleteSchoolTableFromDataBase(
+                                id: list[index]['idSchool'],
+                              );
+                            },
+                            child: const Text(
+                              'حذف هذه المدرسة ',
+                              textDirection: TextDirection.rtl,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                  showDialog(
+                    context: context,
+                    builder: (context) => r,
+                  );
+                },
+                icon: const Icon(
+                  Icons.delete,
                 ),
               ),
               IconButton(
@@ -123,7 +196,9 @@ class Details extends StatelessWidget {
                                     children: [
                                       Text(
                                         'اسم المدرسة :' + list[index]['name'],
+
                                         style: TextStyle(
+
                                           fontSize: MediaQuery.of(context)
                                                   .textScaleFactor *
                                               15,
@@ -139,6 +214,7 @@ class Details extends StatelessWidget {
                                 Text(
                                   ' العنوان  : ' +
                                       list[index]['address'].toString(),
+                                  overflow: TextOverflow.clip,
                                   style: TextStyle(
                                     fontSize:
                                         MediaQuery.of(context).textScaleFactor *
@@ -152,7 +228,7 @@ class Details extends StatelessWidget {
                                       context,
                                       MaterialPageRoute(
                                         builder: (context) => DetailsSchoolMore(
-                                            list, index, idSchool),
+                                            list, index, idSchool,),
                                       ),
                                     );
                                   },
@@ -166,21 +242,6 @@ class Details extends StatelessWidget {
                       ),
                       Container(
                         height: MediaQuery.of(context).size.height / 1.5,
-                        /*decoration: const BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey,
-                              offset: Offset(0, -10),
-                              blurRadius: 10,
-                            ),
-                          ],
-                          color: Colors.blueGrey,
-                          image: DecorationImage(image:AssetImage('build/assets/logo.png') ),
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(20),
-                            topLeft: Radius.circular(70),
-                          ),
-                        ),*/
                         child: ListView.separated(
                           physics: const BouncingScrollPhysics(),
                           separatorBuilder: (context, index) => const SizedBox(

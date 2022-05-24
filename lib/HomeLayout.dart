@@ -1,3 +1,4 @@
+import 'package:education_evaluation/login/login_screen.dart';
 import 'package:education_evaluation/sharedHELper.dart';
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -6,12 +7,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'Cubit/cubit.dart';
 import 'Cubit/states.dart';
 import 'constant.dart';
+import 'main.dart';
 
 class HomeLayout extends StatelessWidget {
   HomeLayout({Key? key}) : super(key: key);
 
   var far = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return Builder(
@@ -67,9 +68,9 @@ class HomeLayout extends StatelessWidget {
                         height: 20,
                       ),
                       MaterialButton(
-                      elevation: 0,
+                        elevation: 0,
                         minWidth: double.infinity,
-                        color: Color(0xFF0b4972),
+                        color: const Color(0xFF0b4972),
                         onPressed: () async {
                           if (homeScreenLikeMe == false) {
                             await Shard.saveData(
@@ -95,11 +96,80 @@ class HomeLayout extends StatelessWidget {
                       MaterialButton(
                         elevation: 0,
                         minWidth: double.infinity,
-                        color: Color(0xFF0b4972),
-                        onPressed: () async {
-                        },
+                        color: const Color(0xFF0b4972),
                         child: const Text(
                           'تغيير حجم الخط؟',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () {
+                          !Education.get(context).t
+                              ? Education.get(context).t =
+                                  Education.get(context).changeBoolean(Education.get(context).t, true)
+                              : Education.get(context).t = Education.get(context)
+                                  .changeBoolean(Education.get(context).t, false);
+                        },
+                      ),
+                      if (Education.get(context).t)
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: DropdownButton<double>(
+                            elevation: 15,
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(15),
+                            ),
+                            hint: !Education.get(context)
+                                    .fontSized
+                                    .contains(Education.get(context).fontSize)
+                                ? const Text(
+                                    'Select the font Size',
+                                  )
+                                : Text(
+                                    Education.get(context).fontSize.toString()),
+                            items: Education.get(context)
+                                .fontSized
+                                .map((double value) {
+                              return DropdownMenuItem(
+                                value: value,
+                                child: Text(value.toString()),
+                              );
+                            }).toList(),
+                            onChanged: (newValue) async {
+                              //ChatCubit.get(context).ChangeFont(newValue as double);
+                            },
+                          ),
+                        ),
+                      MaterialButton(
+                        elevation: 0,
+                        minWidth: double.infinity,
+                        color: const Color(0xFF0b4972),
+                        onPressed: () async {
+                          Education.get(context)
+                              .changeBoolean(isAllowedToShown, true);
+                          isAllowedToShown = true;
+                          Shard.sharedprefrences
+                              ?.remove('isAllow')
+                              .then((value) {
+                            main();
+                          });
+                        },
+                        child: const Text(
+                          'تعديل المحافظة و المادة؟',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      MaterialButton(
+                        elevation: 0,
+                        minWidth: double.infinity,
+                        color: const Color(0xFF0b4972),
+                        onPressed: () async {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => LoginScreen(),
+                            ),
+                          );
+                        },
+                        child: const Text(
+                          'تسجيل الخروج',
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
@@ -119,7 +189,7 @@ class HomeLayout extends StatelessWidget {
                     ),
                   ),
                 ),
-                body: isAllowedToShown == null
+                body: isAllowedToShown == true
                     ? Container(
                         height: MediaQuery.of(context).size.height,
                         color: const Color(0xFFECF0F3),

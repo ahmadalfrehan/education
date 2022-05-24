@@ -54,7 +54,7 @@ class TeacherDetails extends StatelessWidget {
               (route) => false,
             ),
           );
-        }
+        }//EducationalDeleteSuccessState
       },
       builder: (context, state) {
         return Scaffold(
@@ -322,36 +322,6 @@ class TeacherDetails extends StatelessWidget {
                                 child: Text(
                                     'إدارة الصف والعلاقات الإنسانية : \n' +
                                         list[index]['cAhR']),
-                              ),
-                              const SizedBox(height: 4),
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Text('مجال التخطيط :\n' +
-                                    list[index]['planningField']),
-                              ),
-                              const SizedBox(height: 4),
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Text('المجال العلمي : \n' +
-                                    list[index]['scientificField']),
-                              ),
-                              const SizedBox(height: 4),
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.black),
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                child: Text(' المجال التربوي والتقويم : \n' +
-                                    list[index]['educationalField']),
                               ),
                               const SizedBox(height: 4),
                             ],

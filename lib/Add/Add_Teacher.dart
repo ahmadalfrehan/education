@@ -81,6 +81,7 @@ class AddTeacher extends StatelessWidget {
         if(E.isAllowedToReBuildWhenAddTeacher) {
           E.dateController.text = DateTime.now().toString().trim().substring(0,10);
         }
+        E.isAllowedToUpdate = false;
         E.itemController.text = item;
         E.isAllowedToReBuildWhenAddTeacher = false;
         selectSchools(E.schools);
